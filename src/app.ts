@@ -13,6 +13,15 @@ import type { StatsService } from "./services/stats.ts";
 
 const publicDir = join(dirname(fileURLToPath(import.meta.url)), "..", "public");
 
+// Keep top-level route prefixes here so every mount is reserved as a code.
+// Add any new top-level mount here, or a custom code could shadow it.
+export const ROUTE_PREFIXES = {
+  health: "/health",
+  linksApi: "/api/links",
+  statsApi: "/api/stats",
+  statsPage: "/stats",
+} as const;
+
 export function createApp(links: LinksService, stats: StatsService): express.Express {
   const app = express();
   app.disable("x-powered-by");
@@ -20,13 +29,13 @@ export function createApp(links: LinksService, stats: StatsService): express.Exp
   app.use(express.static(publicDir));
 
   // Mounted before the redirect so "health" is never read as a short code.
-  app.use("/health", healthRouter(stats));
+  app.use(ROUTE_PREFIXES.health, healthRouter(stats));
   app.use(exportRouter(links));
-  app.use("/api/links", linksRouter(links));
-  app.use("/api/stats", statsRouter(stats));
+  app.use(ROUTE_PREFIXES.linksApi, linksRouter(links));
+  app.use(ROUTE_PREFIXES.statsApi, statsRouter(stats));
   // The stats page is mounted before the redirect so "stats" is never read
   // as a short code.
-  app.use("/stats", statsPageRouter(publicDir));
+  app.use(ROUTE_PREFIXES.statsPage, statsPageRouter(publicDir));
   // The preview is mounted before the redirect so "abc+" is never read as a
   // short code.
   app.use("/", previewRouter(links));
