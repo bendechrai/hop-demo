@@ -1,0 +1,34 @@
+{
+  "label": "before",
+  "ref": "origin/main",
+  "commit": "3f4d0050defbb05098bb345952cd876371522559",
+  "shortCommit": "3f4d005",
+  "capturedAt": "2026-10-02T17:06:03.155Z",
+  "passed": 3,
+  "failed": 0,
+  "steps": [
+    {
+      "step": {
+        "goto": "/stats"
+      },
+      "ok": true,
+      "status": 200,
+      "url": "/stats"
+    },
+    {
+      "step": {
+        "expectText": "Top five",
+        "selector": "body"
+      },
+      "ok": true,
+      "actual": "Home\nhop stats\n\nEvery link, every click, and the five that get followed most.\n\nLINKS\n0\nCLICKS\n0\nTop five\nCODE\tDESTINATION\tCLICKS\nNo links yet."
+    },
+    {
+      "step": {
+        "screenshot": "stats"
+      },
+      "ok": true,
+      "file": "before-stats.png"
+    }
+  ]
+}

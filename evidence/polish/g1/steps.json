@@ -1,5 +1,5 @@
 [
   { "goto": "/stats" },
-  { "expectText": "Most clicked links", "selector": "body" },
+  { "expectText": "Top five", "selector": "body" },
   { "screenshot": "stats" }
 ]
