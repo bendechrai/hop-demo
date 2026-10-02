@@ -14,6 +14,7 @@ test.afterAll(async ({ request }) => {
 });
 
 test("labels show as tags and the filter narrows the table", async ({ page }) => {
+  await page.clock.install();
   await page.goto("/");
   for (const link of links) {
     await page.getByLabel("Long URL").fill(destination);
@@ -39,7 +40,10 @@ test("labels show as tags and the filter narrows the table", async ({ page }) =>
   await expect(page.locator("#rows tr", { hasText: links[1].code })).toHaveCount(1);
 
   // The page reloads the list every five seconds; the filter must outlive it.
+  // A fake clock runs the refresh now, so the links do not sit in the shared
+  // database for five real seconds while other specs count rows.
   const refreshed = page.waitForResponse((res) => res.url().endsWith("/api/links") && res.request().method() === "GET");
+  await page.clock.runFor(5000);
   await refreshed;
   await expect(mine).toHaveCount(2);
 
