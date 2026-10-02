@@ -2,7 +2,7 @@
 // these would be shadowed by that page and never redirect. When you mount a new
 // top-level route or add a file to public/, add its name here; a test checks
 // public/.
-export const RESERVED_CODES: readonly string[] = ["api", "app", "index", "stats", "style"];
+export const RESERVED_CODES: readonly string[] = ["api", "app", "health", "index", "stats", "style"];
 
 // Express matches routes without regard to case, so "Stats" is shadowed too.
 export function reservedCodeError(code: string): string | null {
