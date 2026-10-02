@@ -1,6 +1,7 @@
 import express from "express";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
+import { exportRouter } from "./routes/export.ts";
 import { linksRouter } from "./routes/links.ts";
 import { previewRouter } from "./routes/preview.ts";
 import { redirectRouter } from "./routes/redirect.ts";
@@ -17,6 +18,7 @@ export function createApp(links: LinksService, stats: StatsService): express.Exp
   app.use(express.json({ limit: "16kb" }));
   app.use(express.static(publicDir));
 
+  app.use(exportRouter(links));
   app.use("/api/links", linksRouter(links));
   app.use("/api/stats", statsRouter(stats));
   // The stats page is mounted before the redirect so "stats" is never read
