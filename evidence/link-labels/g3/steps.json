@@ -1,0 +1,7 @@
+[
+  { "request": { "method": "GET", "path": "/health" }, "expectStatus": 200 },
+  { "goto": "/health" },
+  { "expectText": "status" },
+  { "screenshot": "health" },
+  { "request": { "method": "POST", "path": "/api/links", "body": { "url": "https://example.com/", "code": "health" } }, "expectStatus": 400 }
+]

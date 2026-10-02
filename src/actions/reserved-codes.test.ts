@@ -8,7 +8,7 @@ import { RESERVED_CODES, reservedCodeError } from "./reserved-codes.ts";
 const publicDir = fileURLToPath(new URL("../../public", import.meta.url));
 
 test("reservedCodeError refuses every reserved word", () => {
-  for (const code of ["api", "stats", "app", "index", "style"]) {
+  for (const code of ["api", "stats", "app", "health", "index", "style"]) {
     assert.match(reservedCodeError(code) ?? "", /reserved/, `expected ${code} to be reserved`);
   }
 });
@@ -16,6 +16,7 @@ test("reservedCodeError refuses every reserved word", () => {
 test("reservedCodeError ignores case, as the routes do", () => {
   assert.match(reservedCodeError("Stats") ?? "", /reserved/);
   assert.match(reservedCodeError("API") ?? "", /reserved/);
+  assert.match(reservedCodeError("Health") ?? "", /reserved/);
 });
 
 test("reservedCodeError refuses a code ending in a plus sign, naming the preview", () => {

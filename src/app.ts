@@ -2,6 +2,7 @@ import express from "express";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { exportRouter } from "./routes/export.ts";
+import { healthRouter } from "./routes/health.ts";
 import { linksRouter } from "./routes/links.ts";
 import { previewRouter } from "./routes/preview.ts";
 import { redirectRouter } from "./routes/redirect.ts";
@@ -18,6 +19,8 @@ export function createApp(links: LinksService, stats: StatsService): express.Exp
   app.use(express.json({ limit: "16kb" }));
   app.use(express.static(publicDir));
 
+  // Mounted before the redirect so "health" is never read as a short code.
+  app.use("/health", healthRouter(stats));
   app.use(exportRouter(links));
   app.use("/api/links", linksRouter(links));
   app.use("/api/stats", statsRouter(stats));

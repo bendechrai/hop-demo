@@ -1,0 +1,69 @@
+{
+  "label": "before",
+  "ref": "origin/main",
+  "commit": "a24cb4615cf8b4088f64972a124a4a6a2738030b",
+  "shortCommit": "a24cb46",
+  "capturedAt": "2026-10-02T03:54:58.325Z",
+  "passed": 2,
+  "failed": 3,
+  "steps": [
+    {
+      "step": {
+        "request": {
+          "method": "GET",
+          "path": "/health"
+        },
+        "expectStatus": 200
+      },
+      "ok": false,
+      "status": 404,
+      "body": "Not found"
+    },
+    {
+      "step": {
+        "goto": "/health"
+      },
+      "ok": true,
+      "status": 404,
+      "url": "/health"
+    },
+    {
+      "step": {
+        "expectText": "status"
+      },
+      "ok": false,
+      "actual": "Not found"
+    },
+    {
+      "step": {
+        "screenshot": "health"
+      },
+      "ok": true,
+      "file": "before-health.png"
+    },
+    {
+      "step": {
+        "request": {
+          "method": "POST",
+          "path": "/api/links",
+          "body": {
+            "url": "https://example.com/",
+            "code": "health"
+          }
+        },
+        "expectStatus": 400
+      },
+      "ok": false,
+      "status": 201,
+      "body": {
+        "code": "health",
+        "url": "https://example.com/",
+        "clicks": 0,
+        "createdAt": "2026-10-02T03:54:58.311Z",
+        "expiresAt": null,
+        "expired": false,
+        "shortUrl": "http://127.0.0.1:55744/health"
+      }
+    }
+  ]
+}

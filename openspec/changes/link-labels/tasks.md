@@ -21,6 +21,6 @@ Depends on group 1 being merged.
 
 Independent of groups 1 and 2.
 
-- [ ] 3.1 Add `src/actions/get-health.ts` returning `{ status: "ok", links: <count> }` from the stats service's `totals()`; verify `src/actions/get-health.test.ts` with `fakeStats` shows the count passed through, 0 included
-- [ ] 3.2 Add `src/routes/health.ts` serving `GET /health` as JSON through the action, and mount it in `src/app.ts` above the short-code redirect (one import, one line); verify a new `src/app-health.test.ts` gets 200, `application/json` and `{"status":"ok","links":0}` on an empty database, then `links: 3` with three links one of them expired, and that no click count changed
-- [ ] 3.3 Add `health` to `RESERVED_CODES` in `src/actions/reserved-codes.ts`; verify `src/actions/reserved-codes.test.ts` refuses `health` and `Health`, and `src/app-health.test.ts` shows POST `/api/links` with the code `health` returns 400 and `/health` still answers
+- [x] 3.1 Add `src/actions/get-health.ts` returning `{ status: "ok", links: <count> }` from the stats service's `totals()`; verify `src/actions/get-health.test.ts` with `fakeStats` shows the count passed through, 0 included
+- [x] 3.2 Add `src/routes/health.ts` serving `GET /health` as JSON through the action, and mount it in `src/app.ts` above the short-code redirect (one import, one line); verify a new `src/app-health.test.ts` gets 200, `application/json` and `{"status":"ok","links":0}` on an empty database, then `links: 3` with three links one of them expired, and that no click count changed
+- [x] 3.3 Add `health` to `RESERVED_CODES` in `src/actions/reserved-codes.ts`; verify `src/actions/reserved-codes.test.ts` refuses `health` and `Health`, and `src/app-health.test.ts` shows POST `/api/links` with the code `health` returns 400 and `/health` still answers
