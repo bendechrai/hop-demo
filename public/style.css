@@ -75,6 +75,7 @@ h1 {
 .shorten input {
   flex: 1;
   min-width: 0;
+  max-width: 300px;
   padding: 14px 16px;
   font-size: 16px;
   border-radius: 10px;
@@ -285,6 +286,7 @@ td.dest {
 
 .dest-url {
   min-width: 0;
+  max-width: 300px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
