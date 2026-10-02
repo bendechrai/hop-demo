@@ -1,12 +1,7 @@
-import type { DatabaseSync, SQLOutputValue } from "node:sqlite";
+import type { DatabaseSync } from "node:sqlite";
+import { LINK_COLUMNS, toLink, type Link } from "./link-row.ts";
 
-export interface Link {
-  code: string;
-  url: string;
-  clicks: number;
-  createdAt: string;
-  expiresAt: string | null;
-}
+export type { Link } from "./link-row.ts";
 
 export interface LinksService {
   insert(code: string, url: string, expiresAt: string | null): Link;
@@ -16,22 +11,10 @@ export interface LinksService {
   remove(code: string): boolean;
 }
 
-const COLUMNS = "code, url, clicks, created_at, expires_at";
-
-function toLink(row: Record<string, SQLOutputValue>): Link {
-  return {
-    code: String(row.code),
-    url: String(row.url),
-    clicks: Number(row.clicks),
-    createdAt: String(row.created_at),
-    expiresAt: row.expires_at === null ? null : String(row.expires_at),
-  };
-}
-
 export function createLinksService(db: DatabaseSync): LinksService {
   const insert = db.prepare("INSERT INTO links (code, url, expires_at) VALUES (?, ?, ?)");
-  const selectOne = db.prepare(`SELECT ${COLUMNS} FROM links WHERE code = ?`);
-  const selectAll = db.prepare(`SELECT ${COLUMNS} FROM links ORDER BY created_at DESC`);
+  const selectOne = db.prepare(`SELECT ${LINK_COLUMNS} FROM links WHERE code = ?`);
+  const selectAll = db.prepare(`SELECT ${LINK_COLUMNS} FROM links ORDER BY created_at DESC`);
   const bump = db.prepare("UPDATE links SET clicks = clicks + 1 WHERE code = ? RETURNING url");
   const del = db.prepare("DELETE FROM links WHERE code = ?");
 

@@ -2,9 +2,9 @@
 
 ## 1. Stats service
 
-- [ ] 1.1 Move `COLUMNS` and `toLink` out of `src/services/links.ts` into `src/services/link-row.ts` (as `LINK_COLUMNS` and `toLink`) and import them back, changing no behaviour; verify `npm run verify` passes with the existing `links.test.ts` untouched
-- [ ] 1.2 Add `src/services/stats.ts` with `createStatsService(db)` whose `totals()` returns the link count and the click sum over every row, expired or not, with 0 and 0 on an empty table; verify `src/services/stats.test.ts` covers the empty table and a mix of live and expired links against the throwaway database
-- [ ] 1.3 Add `topLinks(limit)` to the stats service, returning at most `limit` links ordered by clicks from most to least with a stable order for equal counts; verify `src/services/stats.test.ts` covers the limit, the click order and that equal counts come back in the same order on every call
+- [x] 1.1 Move `COLUMNS` and `toLink` out of `src/services/links.ts` into `src/services/link-row.ts` (as `LINK_COLUMNS` and `toLink`) and import them back, changing no behaviour; verify `npm run verify` passes with the existing `links.test.ts` untouched
+- [x] 1.2 Add `src/services/stats.ts` with `createStatsService(db)` whose `totals()` returns the link count and the click sum over every row, expired or not, with 0 and 0 on an empty table; verify `src/services/stats.test.ts` covers the empty table and a mix of live and expired links against the throwaway database
+- [x] 1.3 Add `topLinks(limit)` to the stats service, returning at most `limit` links ordered by clicks from most to least with a stable order for equal counts; verify `src/services/stats.test.ts` covers the limit, the click order and that equal counts come back in the same order on every call
 
 ## 2. Stats action and routes
 
