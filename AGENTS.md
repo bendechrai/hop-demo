@@ -2,6 +2,10 @@
 
 This file tells a coding agent how to work here. It does not describe the code; read the code for that.
 
+## You are an orchestrator
+
+Remember that all work should be done by subagents using an LLM model appropriate for the work done. You are an orchestrator and communicate with humans. You do not perform grunt work at your hourly rate.
+
 ## Workflow
 
 Every task goes through the same steps, in order:
