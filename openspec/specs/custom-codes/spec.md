@@ -6,10 +6,14 @@ Decides which custom short codes a person may choose when creating a link, so th
 ## Requirements
 
 ### Requirement: Reserved words cannot be custom codes
-Creating a link with a custom code that equals a reserved word SHALL respond 400 with a message saying the code is reserved, and SHALL NOT create a link. The reserved words SHALL be every first path segment the app serves itself: at least `api`, `stats`, and the name without extension of every file the app serves from `public/`. The comparison SHALL ignore case.
+Creating a link with a custom code that equals a reserved word SHALL respond 400 with a message saying the code is reserved, and SHALL NOT create a link. The reserved words SHALL be every first path segment the app serves itself: at least `api`, `stats`, `health`, and the name without extension of every file the app serves from `public/`. The comparison SHALL ignore case.
 
 #### Scenario: The stats page name
 - **WHEN** a client posts a new link with the custom code `stats`
+- **THEN** the response is 400 with a message saying the code is reserved, and no link with that code exists
+
+#### Scenario: The health endpoint name
+- **WHEN** a client posts a new link with the custom code `health`
 - **THEN** the response is 400 with a message saying the code is reserved, and no link with that code exists
 
 #### Scenario: A reserved word in another case
