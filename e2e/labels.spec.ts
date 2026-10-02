@@ -10,10 +10,13 @@ const links = [
 ];
 
 const wide = `lab-${stamp}-wide`;
+const wideShort = `lab-${stamp}-wide-short`;
+const fortyW = "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW";
 
 test.afterAll(async ({ request }) => {
   for (const link of links) await request.delete(`/api/links/${link.code}`);
   await request.delete(`/api/links/${wide}`);
+  await request.delete(`/api/links/${wideShort}`);
 });
 
 test("labels show as tags and the filter narrows the table", async ({ page }) => {
@@ -57,19 +60,22 @@ test("labels show as tags and the filter narrows the table", async ({ page }) =>
   await expect(mine).toHaveCount(4);
 });
 
-test("the tag stays inside the destination cell when the destination is long", async ({ page }) => {
+test("the tag stays inside the destination cell and the url stays visible", async ({ page }) => {
   const longUrl = "https://example.com/some/very/long/path/that/goes/on/and/on/for/a/while/campaign?utm_source=newsletter&utm_medium=email";
+  const shortUrl = "https://example.com/a";
+  await page.setViewportSize({ width: 1280, height: 800 });
   await page.goto("/");
   await page.getByLabel("Long URL").fill(longUrl);
   await page.getByLabel("Custom code (optional)").fill(wide);
-  await page.getByLabel("Label (optional)").fill("campaign");
+  await page.getByLabel("Label (optional)").fill(fortyW);
   await page.getByRole("button", { name: "Shorten" }).click();
 
   const row = page.locator("#rows tr", { hasText: wide });
   await expect(row).toHaveCount(1);
   const tag = row.locator(".tag");
-  await expect(tag).toHaveText("campaign");
+  await expect(tag).toHaveText(fortyW);
   await expect(tag).toBeVisible();
+  await expect(row.locator(".dest-url")).toContainText("https://example.com/some/very/long/path");
 
   // toHaveText passes on a clipped element, so compare the boxes.
   const cell = await row.locator("td.dest").boundingBox();
@@ -77,4 +83,17 @@ test("the tag stays inside the destination cell when the destination is long", a
   if (!cell || !box) throw new Error("the cell or the tag has no box");
   expect(box.x).toBeGreaterThanOrEqual(cell.x);
   expect(box.x + box.width).toBeLessThanOrEqual(cell.x + cell.width);
+
+  const longUrlWidth = (await row.locator(".dest-url").boundingBox())?.width;
+  expect(longUrlWidth).toBeGreaterThan(0);
+
+  await page.getByLabel("Long URL").fill(shortUrl);
+  await page.getByLabel("Custom code (optional)").fill(wideShort);
+  await page.getByLabel("Label (optional)").fill(fortyW);
+  await page.getByRole("button", { name: "Shorten" }).click();
+
+  const shortRow = page.locator("#rows tr", { hasText: wideShort });
+  await expect(shortRow).toHaveCount(1);
+  const shortUrlWidth = (await shortRow.locator(".dest-url").boundingBox())?.width;
+  expect(shortUrlWidth).toBeGreaterThan(0);
 });

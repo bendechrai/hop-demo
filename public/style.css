@@ -211,12 +211,17 @@ button.ghost {
   display: inline-block;
   margin-left: 8px;
   padding: 1px 8px;
+  max-width: 55%;
   border: 1px solid var(--border);
   border-radius: 999px;
   background: var(--panel-2);
   text-transform: none;
   letter-spacing: 0.02em;
   vertical-align: middle;
+  flex-shrink: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .links-head {
@@ -285,13 +290,11 @@ td.dest {
 
 .dest-url {
   min-width: 0;
-  max-width: 240px;
+  flex: 1 1 auto;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-
-.label-tag { flex-shrink: 0; }
 
 .empty td { color: var(--muted); text-align: center; padding: 28px; }
 
