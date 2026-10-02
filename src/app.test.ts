@@ -187,3 +187,47 @@ test("GET /stats serves the stats page and an unknown code still gets 404", asyn
   const missing = await fetch(`${base}/no-such-code`, { redirect: "manual" });
   assert.equal(missing.status, 404);
 });
+
+test("GET /:code+ shows a preview page for a live link and counts nothing", async () => {
+  links.insert("prev-live", "https://example.com/a?x=1&y=2", null);
+  for (let i = 0; i < 2; i += 1) {
+    const res = await fetch(`${base}/prev-live+`, { redirect: "manual" });
+    assert.equal(res.status, 200);
+    assert.match(res.headers.get("content-type") ?? "", /html/);
+    const html = await res.text();
+    assert.ok(html.includes("https://example.com/a?x=1&amp;y=2"));
+    assert.match(html, /Never/);
+    assert.match(html, /Clicks<\/dt><dd id="clicks">0/);
+  }
+  assert.equal(links.get("prev-live")?.clicks, 0);
+});
+
+test("GET /:code+ for an expired link is 200 and marked expired", async () => {
+  links.insert("prev-old", "https://example.org/old", "2020-01-01T00:00:00.000Z");
+  const res = await fetch(`${base}/prev-old+`, { redirect: "manual" });
+  assert.equal(res.status, 200);
+  const html = await res.text();
+  assert.match(html, /2020-01-01/);
+  assert.match(html, /expired/i);
+  assert.equal(links.get("prev-old")?.clicks, 0);
+});
+
+test("GET /:code+ escapes a hostile destination", async () => {
+  links.insert("prev-xss", 'http://x.test/"><script>alert(1)</script>', null);
+  const html = await (await fetch(`${base}/prev-xss+`)).text();
+  assert.ok(!html.includes("<script>alert"));
+});
+
+test("GET /:code+ for an unknown code is 404", async () => {
+  const res = await fetch(`${base}/nope123+`);
+  assert.equal(res.status, 404);
+});
+
+test("GET /:code still redirects and counts while /:code+ does not", async () => {
+  links.insert("prev-both", "https://example.com/both", null);
+  await fetch(`${base}/prev-both+`);
+  assert.equal(links.get("prev-both")?.clicks, 0);
+  const res = await fetch(`${base}/prev-both`, { redirect: "manual" });
+  assert.equal(res.status, 302);
+  assert.equal(links.get("prev-both")?.clicks, 1);
+});
