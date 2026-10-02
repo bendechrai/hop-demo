@@ -8,9 +8,9 @@
 
 ## 2. Stats action and routes
 
-- [ ] 2.1 Add `src/actions/get-stats.ts` with `getStats(stats, now)` that returns the totals and the top five links each carrying the `expired` flag from `withStatus`, plus `src/actions/fake-stats.ts` as the in-memory stand-in; verify `src/actions/get-stats.test.ts` shows the service is asked for five, the totals pass through and an expired link is flagged while a live one is not
-- [ ] 2.2 Add `src/routes/stats.ts` serving `GET /api/stats` as JSON `{ links, clicks, top }`, make `createApp(links, stats)` mount it, and build the stats service in `src/server.ts`; verify `src/app.test.ts` reads the totals, sees them rise after a link is created and followed, and sees an expired link planted through the service flagged in `top`
-- [ ] 2.3 Add `src/routes/stats-page.ts` serving `public/stats.html` at `GET /stats`, mounted before the short-code redirect, and add `public/stats.html` with the title, a Home link, two empty totals and an empty top-five table; verify `src/app.test.ts` gets 200 and `text/html` from `/stats` and that an unknown code still gets 404
+- [x] 2.1 Add `src/actions/get-stats.ts` with `getStats(stats, now)` that returns the totals and the top five links each carrying the `expired` flag from `withStatus`, plus `src/actions/fake-stats.ts` as the in-memory stand-in; verify `src/actions/get-stats.test.ts` shows the service is asked for five, the totals pass through and an expired link is flagged while a live one is not
+- [x] 2.2 Add `src/routes/stats.ts` serving `GET /api/stats` as JSON `{ links, clicks, top }`, make `createApp(links, stats)` mount it, and build the stats service in `src/server.ts`; verify `src/app.test.ts` reads the totals, sees them rise after a link is created and followed, and sees an expired link planted through the service flagged in `top`
+- [x] 2.3 Add `src/routes/stats-page.ts` serving `public/stats.html` at `GET /stats`, mounted before the short-code redirect, and add `public/stats.html` with the title, a Home link, two empty totals and an empty top-five table; verify `src/app.test.ts` gets 200 and `text/html` from `/stats` and that an unknown code still gets 404
 
 ## 3. Pages and browser test
 

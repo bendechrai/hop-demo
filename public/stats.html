@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stats - hop</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <main class="wrap">
+    <header class="hero">
+      <nav class="nav"><a href="/">Home</a></nav>
+      <h1><span class="mark">hop</span> stats</h1>
+      <p class="tagline">Every link, every click, and the five that get followed most.</p>
+    </header>
+
+    <section class="totals">
+      <div class="total">
+        <span class="label">Links</span>
+        <span id="total-links" class="figure"></span>
+      </div>
+      <div class="total">
+        <span class="label">Clicks</span>
+        <span id="total-clicks" class="figure"></span>
+      </div>
+    </section>
+
+    <section class="links">
+      <div class="links-head">
+        <h2>Top five</h2>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Code</th>
+            <th>Destination</th>
+            <th class="num">Clicks</th>
+          </tr>
+        </thead>
+        <tbody id="top"></tbody>
+      </table>
+    </section>
+    <p id="message" class="message" role="status" aria-live="polite"></p>
+  </main>
+</body>
+</html>

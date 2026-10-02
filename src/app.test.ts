@@ -4,6 +4,7 @@ import type { Server } from "node:http";
 import type { DatabaseSync } from "node:sqlite";
 import { createApp } from "./app.ts";
 import { createLinksService, type Link, type LinksService } from "./services/links.ts";
+import { createStatsService } from "./services/stats.ts";
 import { openTestDatabase } from "./services/test-database.ts";
 
 let server: Server;
@@ -14,6 +15,12 @@ let links: LinksService;
 interface Presented extends Link {
   shortUrl: string;
   expired: boolean;
+}
+
+interface StatsBody {
+  links: number;
+  clicks: number;
+  top: Array<Link & { expired: boolean }>;
 }
 
 async function postLink(body: Record<string, unknown>): Promise<Response> {
@@ -27,7 +34,7 @@ async function postLink(body: Record<string, unknown>): Promise<Response> {
 before(async () => {
   db = openTestDatabase();
   links = createLinksService(db);
-  server = createApp(links).listen(0);
+  server = createApp(links, createStatsService(db)).listen(0);
   await new Promise((resolve) => server.once("listening", resolve));
   const address = server.address();
   if (!address || typeof address === "string") throw new Error("No port");
@@ -135,6 +142,47 @@ test("GET /:code on an expired link returns 410 with the expired page and counts
   const detail = (await (await fetch(`${base}/api/links/expired-e2e`)).json()) as Presented;
   assert.equal(detail.clicks, 0);
   assert.equal(detail.expired, true);
+
+  const missing = await fetch(`${base}/no-such-code`, { redirect: "manual" });
+  assert.equal(missing.status, 404);
+});
+
+test("GET /api/stats reports the totals and the top links with an expired link flagged", async () => {
+  const before = (await (await fetch(`${base}/api/stats`)).json()) as StatsBody;
+  const created = (await (await postLink({ url: "https://example.com/stats/live" })).json()) as Presented;
+  for (let i = 0; i < 2; i += 1) {
+    await fetch(`${base}/${created.code}`, { redirect: "manual" });
+  }
+  // The service is the only honest way to make an expired link that was
+  // clicked while it was live.
+  links.insert("stats-old", "https://example.com/stats/old", "2020-01-01T00:00:00.000Z");
+  for (let i = 0; i < 9; i += 1) links.recordClick("stats-old");
+
+  const res = await fetch(`${base}/api/stats`);
+  assert.equal(res.status, 200);
+  const body = (await res.json()) as StatsBody;
+  assert.equal(body.links, before.links + 2);
+  assert.equal(body.clicks, before.clicks + 11);
+  assert.ok(body.top.length <= 5, `top had ${body.top.length} links`);
+
+  const counts = body.top.map((link) => link.clicks);
+  assert.deepEqual(counts, [...counts].sort((a, b) => b - a));
+  assert.equal(body.top[0]?.code, "stats-old");
+  assert.equal(body.top[0]?.url, "https://example.com/stats/old");
+  assert.equal(body.top[0]?.clicks, 9);
+  assert.equal(body.top[0]?.expired, true);
+  const live = body.top.find((link) => link.code === created.code);
+  assert.equal(live?.clicks, 2);
+  assert.equal(live?.expired, false);
+});
+
+test("GET /stats serves the stats page and an unknown code still gets 404", async () => {
+  const res = await fetch(`${base}/stats`);
+  assert.equal(res.status, 200);
+  assert.match(res.headers.get("content-type") ?? "", /text\/html/);
+  const html = await res.text();
+  assert.match(html, /<title>Stats - hop<\/title>/);
+  assert.match(html, /href="\/"/);
 
   const missing = await fetch(`${base}/no-such-code`, { redirect: "manual" });
   assert.equal(missing.status, 404);
