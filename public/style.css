@@ -285,7 +285,7 @@ td.dest {
 
 .dest-url {
   min-width: 0;
-  max-width: 300px;
+  max-width: 240px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
