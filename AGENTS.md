@@ -14,6 +14,7 @@ Every task goes through the same steps, in order:
    Every PR goes through the `review-loop` skill before a human merges it.
 
 Every ticket starts with the `new-feature` skill, in its own git worktree and branch, and never on main.
+A whole change is built with the `orchestrate` skill: one orchestrator session dispatches an implementer per ticket, verifies each result, has it reviewed on a different model and merges what passes.
 
 ## Conventions
 
