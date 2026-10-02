@@ -1,0 +1,5 @@
+[
+  { "goto": "/stats" },
+  { "expectText": "Top five", "selector": "body" },
+  { "screenshot": "stats" }
+]

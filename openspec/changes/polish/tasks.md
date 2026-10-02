@@ -4,10 +4,10 @@
 
 Independent of groups 2 and 3.
 
-- [ ] 1.1 Reproduce the failure first: on a clean checkout of `origin/main` run `npm run e2e` 20 times and save each result line (`Running 11 tests using 5 workers`, then passed or failed) to `evidence/polish/g1/before.txt`, with the failing test's name and message for every failure; verify the file shows the 5 workers and, if a run failed, the `#total-links` expectation (on main 2 of 25 runs failed, so if 20 runs all pass, say so in the file and run 20 more)
-- [ ] 1.2 Set `workers: 1` in `playwright.config.ts` with a comment that says why (every spec file shares one server and one database, so files must not run at the same time); verify `npm run e2e` prints `using 1 worker`
-- [ ] 1.3 Add a comment above the empty-database test in `e2e/hop.spec.ts` saying it relies on one worker and on `e2e/export.spec.ts` removing its link, without moving, deleting or weakening any test; verify `npm run e2e` still runs the same 11 tests and `git diff --stat` shows only comment lines changed in that file
-- [ ] 1.4 Run the e2e suite 5 times in a row after the change (`for i in 1 2 3 4 5; do npm run e2e || break; done`) and save the 5 result lines to `evidence/polish/g1/after.txt`; verify all 5 runs pass with no failure, then do the same 5 runs again on the pushed commit through `bin/preflight.sh` or the pre-push gate and quote the exit codes
+- [x] 1.1 Reproduce the failure first: on a clean checkout of `origin/main` run `npm run e2e` 20 times and save each result line (`Running 11 tests using 5 workers`, then passed or failed) to `evidence/polish/g1/before.txt`, with the failing test's name and message for every failure; verify the file shows the 5 workers and, if a run failed, the `#total-links` expectation (on main 2 of 25 runs failed, so if 20 runs all pass, say so in the file and run 20 more)
+- [x] 1.2 Set `workers: 1` in `playwright.config.ts` with a comment that says why (every spec file shares one server and one database, so files must not run at the same time); verify `npm run e2e` prints `using 1 worker`
+- [x] 1.3 Add a comment above the empty-database test in `e2e/hop.spec.ts` saying it relies on one worker and on `e2e/export.spec.ts` removing its link, without moving, deleting or weakening any test; verify `npm run e2e` still runs the same 11 tests and `git diff --stat` shows only comment lines changed in that file
+- [x] 1.4 Run the e2e suite 5 times in a row after the change (`for i in 1 2 3 4 5; do npm run e2e || break; done`) and save the 5 result lines to `evidence/polish/g1/after.txt`; verify all 5 runs pass with no failure, then do the same 5 runs again on the pushed commit through `bin/preflight.sh` or the pre-push gate and quote the exit codes
 
 ## 2. Destination column and label tag
 
