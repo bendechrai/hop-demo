@@ -9,8 +9,11 @@ const links = [
   { code: `lab-${stamp}-d`, label: "" },
 ];
 
+const wide = `lab-${stamp}-wide`;
+
 test.afterAll(async ({ request }) => {
   for (const link of links) await request.delete(`/api/links/${link.code}`);
+  await request.delete(`/api/links/${wide}`);
 });
 
 test("labels show as tags and the filter narrows the table", async ({ page }) => {
@@ -52,4 +55,26 @@ test("labels show as tags and the filter narrows the table", async ({ page }) =>
 
   await filter.fill("");
   await expect(mine).toHaveCount(4);
+});
+
+test("the tag stays inside the destination cell when the destination is long", async ({ page }) => {
+  const longUrl = "https://example.com/some/very/long/path/that/goes/on/and/on/for/a/while/campaign?utm_source=newsletter&utm_medium=email";
+  await page.goto("/");
+  await page.getByLabel("Long URL").fill(longUrl);
+  await page.getByLabel("Custom code (optional)").fill(wide);
+  await page.getByLabel("Label (optional)").fill("campaign");
+  await page.getByRole("button", { name: "Shorten" }).click();
+
+  const row = page.locator("#rows tr", { hasText: wide });
+  await expect(row).toHaveCount(1);
+  const tag = row.locator(".tag");
+  await expect(tag).toHaveText("campaign");
+  await expect(tag).toBeVisible();
+
+  // toHaveText passes on a clipped element, so compare the boxes.
+  const cell = await row.locator("td.dest").boundingBox();
+  const box = await tag.boundingBox();
+  if (!cell || !box) throw new Error("the cell or the tag has no box");
+  expect(box.x).toBeGreaterThanOrEqual(cell.x);
+  expect(box.x + box.width).toBeLessThanOrEqual(cell.x + cell.width);
 });

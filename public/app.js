@@ -58,14 +58,21 @@ function render(fetched) {
     a.rel = "noopener";
     a.textContent = link.shortUrl.replace(/^https?:\/\//, "");
     tr.appendChild(cell("", a));
-    const dest = cell("dest", link.url);
-    dest.title = link.url;
+    // The URL ellipsizes in its own span so the tag is never pushed out of the cell.
+    const line = document.createElement("div");
+    line.className = "dest-line";
+    const url = document.createElement("span");
+    url.className = "dest-url";
+    url.textContent = link.url;
+    line.appendChild(url);
     if (link.label) {
       const tag = document.createElement("span");
       tag.className = "tag label-tag";
       tag.textContent = link.label;
-      dest.appendChild(tag);
+      line.appendChild(tag);
     }
+    const dest = cell("dest", line);
+    dest.title = link.url;
     tr.appendChild(dest);
     tr.appendChild(cell("num", link.expired ? "Expired" : String(link.clicks)));
     tr.appendChild(cell("actions", deleteButton(link)));

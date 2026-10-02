@@ -281,6 +281,17 @@ td.dest {
   white-space: nowrap;
 }
 
+.dest-line { display: flex; align-items: center; }
+
+.dest-url {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.label-tag { flex-shrink: 0; }
+
 .empty td { color: var(--muted); text-align: center; padding: 28px; }
 
 .sr-only {
