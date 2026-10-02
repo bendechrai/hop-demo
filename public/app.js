@@ -1,5 +1,6 @@
 const form = document.getElementById("shorten");
 const input = document.getElementById("url");
+const codeInput = document.getElementById("code");
 const submit = form.querySelector("button[type=submit]");
 const message = document.getElementById("message");
 const result = document.getElementById("result");
@@ -62,7 +63,7 @@ form.addEventListener("submit", async (event) => {
     const res = await fetch("/api/links", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ url: input.value }),
+      body: JSON.stringify({ url: input.value, code: codeInput.value }),
     });
     const body = await res.json();
     if (!res.ok) {
@@ -73,6 +74,7 @@ form.addEventListener("submit", async (event) => {
     resultLink.textContent = body.shortUrl;
     result.hidden = false;
     input.value = "";
+    codeInput.value = "";
     setMessage("Short link created.", true);
     await load();
   } catch (err) {

@@ -14,10 +14,11 @@ export function linksRouter(links: LinksService): Router {
 
   router.post("/", (req, res) => {
     const body: unknown = req.body;
-    const url = typeof body === "object" && body !== null ? Reflect.get(body, "url") : undefined;
-    const result = createLink({ url }, links);
+    const field = (name: string): unknown =>
+      typeof body === "object" && body !== null ? Reflect.get(body, name) : undefined;
+    const result = createLink({ url: field("url"), code: field("code") }, links);
     if (!result.ok) {
-      res.status(400).json({ error: result.error });
+      res.status(result.reason === "conflict" ? 409 : 400).json({ error: result.error });
       return;
     }
     res.status(201).json(presentLink(result.value, req));

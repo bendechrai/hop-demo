@@ -16,6 +16,10 @@
     <form id="shorten" class="shorten" autocomplete="off">
       <label class="sr-only" for="url">Long URL</label>
       <input id="url" name="url" type="text" placeholder="https://example.com/some/very/long/path?with=params" required>
+      <label class="sr-only" for="code">Custom code (optional)</label>
+      <input id="code" name="code" type="text" class="code" placeholder="custom code (optional)"
+        minlength="3" maxlength="32" pattern="[A-Za-z0-9-]{3,32}"
+        title="3 to 32 characters: letters, digits and hyphens only">
       <button type="submit">Shorten</button>
     </form>
     <p id="message" class="message" role="status" aria-live="polite"></p>
