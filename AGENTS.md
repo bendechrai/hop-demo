@@ -11,6 +11,7 @@ Every task goes through the same steps, in order:
 3. **Verify.** Run the checks in "Commands" below after your last edit, and quote the command and its exit code in your summary. "It should work" is not a result.
 4. **Summarise.** Say what you changed, what you checked, and anything you were not able to verify.
    A PR is not opened without the Evidence section the `evidence` skill describes.
+   Every PR goes through the `review-loop` skill before a human merges it.
 
 Every ticket starts with the `new-feature` skill, in its own git worktree and branch, and never on main.
 
