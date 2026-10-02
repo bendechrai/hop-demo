@@ -5,3 +5,7 @@ screenshot.png
 test-results/
 playwright-report/
 .board/
+
+.agents/loop/runs/
+.agents/loop/STOP
+.agents/loop/loop.log
