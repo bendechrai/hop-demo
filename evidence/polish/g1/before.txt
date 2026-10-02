@@ -1,0 +1,75 @@
+Run 1
+Running 11 tests using 5 workers - passed (exit 0)
+
+Run 2
+Running 11 tests using 5 workers - passed (exit 0)
+
+Run 3
+Running 11 tests using 5 workers - passed (exit 0)
+
+Run 4
+Running 11 tests using 5 workers - passed (exit 0)
+
+Run 5
+Running 11 tests using 5 workers - passed (exit 0)
+
+Run 6
+Running 11 tests using 5 workers - passed (exit 0)
+
+Run 7
+Running 11 tests using 5 workers - passed (exit 0)
+
+Run 8
+Running 11 tests using 5 workers - passed (exit 0)
+
+Run 9
+Running 11 tests using 5 workers - passed (exit 0)
+
+Run 10
+Running 11 tests using 5 workers - passed (exit 0)
+
+Run 11
+Running 11 tests using 5 workers - passed (exit 0)
+
+Run 12
+Running 11 tests using 5 workers - passed (exit 0)
+
+Run 13
+Running 11 tests using 5 workers - failed (exit 1)
+23:  ✘   3 [chromium] › e2e/hop.spec.ts:8:1 › the stats page shows zeros and a note when there are no links (5.1s)
+26:  ✓   7 [chromium] › e2e/hop.spec.ts:15:1 › a link can be created, followed, and shows its click count (334ms)
+27:  ✓   8 [chromium] › e2e/hop.spec.ts:39:1 › a link can be deleted from the table after confirming (222ms)
+28:  ✓   9 [chromium] › e2e/hop.spec.ts:58:1 › a link can be given an expiry in days when it is created (195ms)
+29:  ✓  10 [chromium] › e2e/hop.spec.ts:79:1 › an expired link is greyed out, answers 410, and can still be deleted (143ms)
+30:  ✓  11 [chromium] › e2e/hop.spec.ts:102:1 › the stats page shows the totals and the most clicked links, expired ones marked (488ms)
+33:  1) [chromium] › e2e/hop.spec.ts:8:1 › the stats page shows zeros and a note when there are no links 
+35:    Error: expect(locator).toHaveText(expected) failed
+37:    Locator:  locator('#total-links')
+38:    Expected: "0"
+43:      - Expect "toHaveText" locator('#total-links') with timeout 5000ms
+44:      - waiting for locator('#total-links')
+51:    > 10 |   await expect(page.locator("#total-links")).toHaveText("0");
+56:        at /Users/ben/Projects/software-factory-workshop/demo/hop.worktrees/feat-polish-g1/e2e/hop.spec.ts:10:46
+61:    [chromium] › e2e/hop.spec.ts:8:1 › the stats page shows zeros and a note when there are no links 
+
+Run 14
+Running 11 tests using 5 workers - passed (exit 0)
+
+Run 15
+Running 11 tests using 5 workers - passed (exit 0)
+
+Run 16
+Running 11 tests using 5 workers - passed (exit 0)
+
+Run 17
+Running 11 tests using 5 workers - passed (exit 0)
+
+Run 18
+Running 11 tests using 5 workers - passed (exit 0)
+
+Run 19
+Running 11 tests using 5 workers - passed (exit 0)
+
+Run 20
+Running 11 tests using 5 workers - passed (exit 0)
+

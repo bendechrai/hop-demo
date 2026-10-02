@@ -9,6 +9,9 @@ const baseURL = `http://127.0.0.1:${port}`;
 export default defineConfig({
   testDir: "./e2e",
   fullyParallel: false,
+  // Every spec file shares one web server and one throwaway SQLite file, so
+  // workers stay at 1 to keep files from racing each other.
+  workers: 1,
   retries: 0,
   reporter: "list",
   use: { baseURL },

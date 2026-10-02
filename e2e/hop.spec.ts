@@ -4,7 +4,8 @@ import { plantExpiredLink } from "./database.ts";
 const code = `e2e-${Date.now().toString(36)}`;
 const destination = "https://example.com/e2e/landing";
 
-// Runs first, while the throwaway database is still empty.
+// This relies on one worker and on e2e/export.spec.ts deleting its link,
+// so the shared throwaway database is empty when this runs.
 test("the stats page shows zeros and a note when there are no links", async ({ page }) => {
   await page.goto("/stats");
   await expect(page.locator("#total-links")).toHaveText("0");
