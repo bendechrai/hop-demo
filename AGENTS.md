@@ -11,6 +11,8 @@ Every task goes through the same steps, in order:
 3. **Verify.** Run the checks in "Commands" below after your last edit, and quote the command and its exit code in your summary. "It should work" is not a result.
 4. **Summarise.** Say what you changed, what you checked, and anything you were not able to verify.
 
+Every ticket starts with the `new-feature` skill, in its own git worktree and branch, and never on main.
+
 ## Conventions
 
 - The language is TypeScript. Node code passes ESLint and never uses the `any` type.
