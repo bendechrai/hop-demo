@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { createLink } from "../actions/create-link.ts";
+import { deleteLink } from "../actions/delete-link.ts";
 import { getLink } from "../actions/get-link.ts";
 import { listLinks } from "../actions/list-links.ts";
 import type { LinksService } from "../services/links.ts";
@@ -31,6 +32,15 @@ export function linksRouter(links: LinksService): Router {
       return;
     }
     res.json(presentLink(result.value, req));
+  });
+
+  router.delete("/:code", (req, res) => {
+    const result = deleteLink(req.params.code, links);
+    if (!result.ok) {
+      res.status(404).json({ error: result.error });
+      return;
+    }
+    res.status(204).end();
   });
 
   return router;

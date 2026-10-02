@@ -175,6 +175,10 @@ th {
 tr:last-child td { border-bottom: none; }
 
 td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+td.actions, th.actions { text-align: right; width: 1%; white-space: nowrap; }
+
+button.danger { color: var(--danger); padding: 4px 10px; font-size: 13px; }
+button.danger:hover { border-color: var(--danger); }
 
 td a { color: var(--accent); text-decoration: none; }
 td a:hover { text-decoration: underline; }

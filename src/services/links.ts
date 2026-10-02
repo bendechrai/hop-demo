@@ -12,6 +12,7 @@ export interface LinksService {
   get(code: string): Link | null;
   list(): Link[];
   recordClick(code: string): string | null;
+  remove(code: string): boolean;
 }
 
 function toLink(row: Record<string, SQLOutputValue>): Link {
@@ -30,6 +31,7 @@ export function createLinksService(db: DatabaseSync): LinksService {
     "SELECT code, url, clicks, created_at FROM links ORDER BY created_at DESC",
   );
   const bump = db.prepare("UPDATE links SET clicks = clicks + 1 WHERE code = ? RETURNING url");
+  const del = db.prepare("DELETE FROM links WHERE code = ?");
 
   return {
     insert(code, url) {
@@ -48,6 +50,9 @@ export function createLinksService(db: DatabaseSync): LinksService {
     recordClick(code) {
       const row = bump.get(code);
       return row ? String(row.url) : null;
+    },
+    remove(code) {
+      return del.run(code).changes > 0;
     },
   };
 }

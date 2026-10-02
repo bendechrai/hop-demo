@@ -70,6 +70,21 @@ test("GET /:code redirects and counts clicks", async () => {
   assert.equal(found?.clicks, 3);
 });
 
+test("DELETE /api/links/:code removes the link and then reports 404", async () => {
+  const created = (await (await postLink({ url: "https://example.net/gone" })).json()) as Presented;
+
+  const res = await fetch(`${base}/api/links/${created.code}`, { method: "DELETE" });
+  assert.equal(res.status, 204);
+
+  const detail = await fetch(`${base}/api/links/${created.code}`);
+  assert.equal(detail.status, 404);
+  const redirect = await fetch(`${base}/${created.code}`, { redirect: "manual" });
+  assert.equal(redirect.status, 404);
+
+  const again = await fetch(`${base}/api/links/${created.code}`, { method: "DELETE" });
+  assert.equal(again.status, 404);
+});
+
 test("unknown codes return 404", async () => {
   const res = await fetch(`${base}/zzzzzz`, { redirect: "manual" });
   assert.equal(res.status, 404);

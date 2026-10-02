@@ -22,5 +22,11 @@ export function fakeLinks(seed: Link[] = []): LinksService & { rows: Link[] } {
       row.clicks += 1;
       return row.url;
     },
+    remove(code) {
+      const index = rows.findIndex((link) => link.code === code);
+      if (index === -1) return false;
+      rows.splice(index, 1);
+      return true;
+    },
   };
 }

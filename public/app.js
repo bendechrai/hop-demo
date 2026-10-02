@@ -29,7 +29,7 @@ function render(links) {
     const tr = document.createElement("tr");
     tr.className = "empty";
     tr.appendChild(cell("", "No links yet. Shorten one above."));
-    tr.firstChild.colSpan = 3;
+    tr.firstChild.colSpan = 4;
     rows.appendChild(tr);
     return;
   }
@@ -45,7 +45,33 @@ function render(links) {
     dest.title = link.url;
     tr.appendChild(dest);
     tr.appendChild(cell("num", String(link.clicks)));
+    tr.appendChild(cell("actions", deleteButton(link)));
     rows.appendChild(tr);
+  }
+}
+
+function deleteButton(link) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "ghost danger";
+  button.textContent = "Delete";
+  button.setAttribute("aria-label", `Delete ${link.code}`);
+  button.addEventListener("click", () => remove(link.code));
+  return button;
+}
+
+async function remove(code) {
+  if (!window.confirm(`Delete the short link "${code}"? This cannot be undone.`)) return;
+  setMessage("");
+  try {
+    const res = await fetch(`/api/links/${encodeURIComponent(code)}`, { method: "DELETE" });
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({}));
+      setMessage(body.error ?? "Could not delete the link.");
+    }
+    await load();
+  } catch (err) {
+    setMessage(err.message);
   }
 }
 
