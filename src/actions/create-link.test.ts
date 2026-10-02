@@ -54,6 +54,29 @@ test("createLink refuses a custom code that is already taken", () => {
   assert.equal(links.rows.length, 1);
 });
 
+test("createLink refuses reserved codes and codes ending in a plus sign without storing a link", () => {
+  for (const [code, pattern] of [
+    ["stats", /reserved/],
+    ["API", /reserved/],
+    ["abc+", /preview/],
+  ] as const) {
+    const links = fakeLinks();
+    const result = createLink({ url: "https://example.com", code }, links);
+    assert.equal(result.ok, false, `expected ${code} to be rejected`);
+    if (!result.ok) {
+      assert.equal(result.reason, "invalid");
+      assert.match(result.error, pattern);
+    }
+    assert.equal(links.rows.length, 0);
+  }
+});
+
+test("createLink still accepts a code that only contains a reserved word", () => {
+  const result = createLink({ url: "https://example.com", code: "my-stats" }, fakeLinks());
+  assert.ok(result.ok);
+  assert.equal(result.value.code, "my-stats");
+});
+
 test("createLink checks the URL before the code", () => {
   const result = createLink({ url: "nope", code: "!!" }, fakeLinks());
   assert.equal(result.ok, false);

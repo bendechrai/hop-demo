@@ -1,4 +1,5 @@
 import { withStatus, type LinkStatus } from "./link-status.ts";
+import { reservedCodeError } from "./reserved-codes.ts";
 import type { ActionResult } from "./result.ts";
 import { isValidCode } from "./validate-code.ts";
 import type { LinksService } from "../services/links.ts";
@@ -28,6 +29,8 @@ function isBlank(value: unknown): boolean {
 function chooseCode(requested: unknown, links: LinksService): ActionResult<string> {
   const custom = typeof requested === "string" ? requested.trim() : requested;
   if (!isBlank(custom)) {
+    const reserved = typeof custom === "string" ? reservedCodeError(custom) : null;
+    if (reserved) return invalid(reserved);
     if (typeof custom !== "string" || !isValidCode(custom)) {
       return invalid("Custom code must be 3 to 32 characters: letters, digits and hyphens only.");
     }
