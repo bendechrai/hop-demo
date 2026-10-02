@@ -14,3 +14,7 @@ export function reservedCodeError(code: string): string | null {
   }
   return null;
 }
+
+export function isReservedCode(code: string): boolean {
+  return RESERVED_CODES.includes(code.toLowerCase());
+}

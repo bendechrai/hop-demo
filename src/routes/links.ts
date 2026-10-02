@@ -3,6 +3,7 @@ import { createLink } from "../actions/create-link.ts";
 import { deleteLink } from "../actions/delete-link.ts";
 import { getLink } from "../actions/get-link.ts";
 import { listLinks } from "../actions/list-links.ts";
+import { RESERVED_CODES } from "../actions/reserved-codes.ts";
 import type { LinksService } from "../services/links.ts";
 import { presentLink } from "./present-link.ts";
 
@@ -17,6 +18,11 @@ export function linksRouter(links: LinksService): Router {
     const body: unknown = req.body;
     const field = (name: string): unknown =>
       typeof body === "object" && body !== null ? Reflect.get(body, name) : undefined;
+    const requestedCode = field("code");
+    if (typeof requestedCode === "string" && RESERVED_CODES.includes(requestedCode.toLowerCase())) {
+      res.status(400).json({ error: `The code "${requestedCode}" is reserved for a page of hop. Choose another code.` });
+      return;
+    }
     const result = createLink(
       { url: field("url"), code: field("code"), expiresInDays: field("expiresInDays") },
       links,
