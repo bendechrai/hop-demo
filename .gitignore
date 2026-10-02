@@ -4,3 +4,4 @@ screenshot.png
 .env
 test-results/
 playwright-report/
+.board/
