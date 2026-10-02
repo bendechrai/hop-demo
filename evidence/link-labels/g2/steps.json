@@ -107,7 +107,30 @@
     "selector": "#rows tr:has(a[href$='/sales-one']) .tag"
   },
   {
-    "expectText": "4 links",
+    "fill": "#url",
+    "value": "https://example.com/some/very/long/path/that/goes/on/and/on/for/a/while/campaign?utm_source=newsletter&utm_medium=email"
+  },
+  {
+    "fill": "#code",
+    "value": "wide-one"
+  },
+  {
+    "fill": "#label",
+    "value": "campaign"
+  },
+  {
+    "click": "button[type=submit]"
+  },
+  {
+    "expectText": "Short link created.",
+    "selector": "#message"
+  },
+  {
+    "expectText": "campaign",
+    "selector": "#rows tr:has(a[href$='/wide-one']) .tag"
+  },
+  {
+    "expectText": "5 links",
     "selector": "#count"
   },
   {
