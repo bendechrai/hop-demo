@@ -1,0 +1,72 @@
+{
+  "label": "after",
+  "ref": "HEAD",
+  "commit": "7f012f9a7a4b3a07818ed1bb1f5b95b9cc3987e3",
+  "shortCommit": "7f012f9",
+  "capturedAt": "2026-10-02T18:00:27.376Z",
+  "passed": 4,
+  "failed": 0,
+  "steps": [
+    {
+      "step": {
+        "request": {
+          "method": "GET",
+          "path": "/health"
+        },
+        "expectStatus": 200
+      },
+      "ok": true,
+      "status": 200,
+      "body": {
+        "status": "ok",
+        "links": 0
+      }
+    },
+    {
+      "step": {
+        "request": {
+          "method": "GET",
+          "path": "/stats"
+        },
+        "expectStatus": 200
+      },
+      "ok": true,
+      "status": 200,
+      "body": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Stats - hop</title>\n  <link rel=\"stylesheet\" href=\"/style.css\">\n</head>\n<body>\n  <main class=\"wrap\">\n    <header class=\"hero\">\n      <nav class=\"nav\"><a href=\"/\">Home</a></nav>\n      <h1><span class=\"mark\">hop</span> stats</h1>\n      <p class=\"tagline\">Every link, every click, and the five that get followed most.</p>\n    </header>\n\n    <section class=\"t..."
+    },
+    {
+      "step": {
+        "request": {
+          "method": "GET",
+          "path": "/api/stats"
+        },
+        "expectStatus": 200
+      },
+      "ok": true,
+      "status": 200,
+      "body": {
+        "links": 0,
+        "clicks": 0,
+        "top": []
+      }
+    },
+    {
+      "step": {
+        "request": {
+          "method": "POST",
+          "path": "/api/links",
+          "body": {
+            "url": "https://example.com/blocked",
+            "code": "health"
+          }
+        },
+        "expectStatus": 400
+      },
+      "ok": true,
+      "status": 400,
+      "body": {
+        "error": "The code \"health\" is reserved for a page of hop. Choose another code."
+      }
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+[
+  { "request": { "method": "GET", "path": "/health" }, "expectStatus": 200 },
+  { "request": { "method": "GET", "path": "/stats" }, "expectStatus": 200 },
+  { "request": { "method": "GET", "path": "/api/stats" }, "expectStatus": 200 },
+  { "request": { "method": "POST", "path": "/api/links", "body": { "url": "https://example.com/blocked", "code": "health" } }, "expectStatus": 400 }
+]
