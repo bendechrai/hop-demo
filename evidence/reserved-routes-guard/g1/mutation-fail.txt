@@ -1,0 +1,27 @@
+✖ top-level route prefixes are reserved codes (1.0685ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 261.687083
+
+✖ failing tests:
+
+test at src/reserved-routes.test.ts:6:1
+✖ top-level route prefixes are reserved codes (1.0685ms)
+  AssertionError [ERR_ASSERTION]: Expected reserved codes to include first segment "health" from prefix "/health"
+      at TestContext.<anonymous> (file:///Users/ben/Projects/software-factory-workshop/demo/hop.worktrees/feat-reserved-routes-guard-g1/src/reserved-routes.test.ts:10:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
