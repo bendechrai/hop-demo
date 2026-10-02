@@ -14,6 +14,6 @@
 
 ## 3. Pages and browser test
 
-- [ ] 3.1 Add `public/stats.js` that fetches `/api/stats` once, fills the two totals and the table with code, destination and click count, gives an expired row the `expired` class and the word Expired beside its count, and shows "No links yet" when the list is empty; verify by starting the app and opening `/stats` with and without links
-- [ ] 3.2 Add a Stats link to the header of `public/index.html` and the matching nav style in `public/style.css`, and give the stats page its Home link the same style; verify by opening the home page and following the link there and back
-- [ ] 3.3 Add a scenario to `e2e/hop.spec.ts` that reads `/api/stats`, creates a link and follows it three times, plants an expired link, follows the Stats link from the home page, checks both totals rose by what was added, sees the new link and the expired link in the top five with the expired one marked, and follows the Home link back; verify `npm run e2e` passes
+- [x] 3.1 Add `public/stats.js` that fetches `/api/stats` once, fills the two totals and the table with code, destination and click count, gives an expired row the `expired` class and the word Expired beside its count, and shows "No links yet" when the list is empty; verify by starting the app and opening `/stats` with and without links
+- [x] 3.2 Add a Stats link to the header of `public/index.html` and the matching nav style in `public/style.css`, and give the stats page its Home link the same style; verify by opening the home page and following the link there and back
+- [x] 3.3 Add a scenario to `e2e/hop.spec.ts` that reads `/api/stats`, creates a link and follows it three times, plants an expired link, follows the Stats link from the home page, checks both totals rose by what was added, sees the new link and the expired link in the top five with the expired one marked, and follows the Home link back; verify `npm run e2e` passes

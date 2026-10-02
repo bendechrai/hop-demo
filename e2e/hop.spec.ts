@@ -4,6 +4,14 @@ import { plantExpiredLink } from "./database.ts";
 const code = `e2e-${Date.now().toString(36)}`;
 const destination = "https://example.com/e2e/landing";
 
+// Runs first, while the throwaway database is still empty.
+test("the stats page shows zeros and a note when there are no links", async ({ page }) => {
+  await page.goto("/stats");
+  await expect(page.locator("#total-links")).toHaveText("0");
+  await expect(page.locator("#total-clicks")).toHaveText("0");
+  await expect(page.locator("#top tr.empty")).toHaveText("No links yet.");
+});
+
 test("a link can be created, followed, and shows its click count", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("heading", { name: "hop" })).toBeVisible();
@@ -89,4 +97,46 @@ test("an expired link is greyed out, answers 410, and can still be deleted", asy
   });
   await row.getByRole("button", { name: `Delete ${expired}` }).click();
   await expect(row).toHaveCount(0);
+});
+
+test("the stats page shows the totals and the most clicked links, expired ones marked", async ({ page }) => {
+  // Earlier scenarios leave links behind, so the test checks what it adds.
+  const before = await (await page.request.get("/api/stats")).json();
+
+  await page.goto("/");
+  await page.getByLabel("Long URL").fill(destination);
+  await page.getByLabel("Custom code (optional)").fill(`${code}-top`);
+  await page.getByRole("button", { name: "Shorten" }).click();
+  await expect(page.locator("#message")).toHaveText("Short link created.");
+
+  await page.route(destination, (route) => route.fulfill({ body: "landed" }));
+  for (let i = 0; i < 3; i += 1) {
+    await page.goto(`/${code}-top`);
+    await expect(page).toHaveURL(destination);
+  }
+  plantExpiredLink(`${code}-stale`, destination);
+
+  await page.goto("/");
+  await page.getByRole("link", { name: "Stats" }).click();
+  await expect(page).toHaveURL(/\/stats$/);
+  await expect(page.locator("#total-links")).toHaveText(String(before.links + 2));
+  await expect(page.locator("#total-clicks")).toHaveText(String(before.clicks + 3));
+
+  const rows = page.locator("#top tr");
+  await expect(rows.first()).toContainText(`${code}-top`);
+  expect(await rows.count()).toBeLessThanOrEqual(5);
+
+  const top = page.locator("#top tr", { hasText: `${code}-top` });
+  await expect(top).not.toHaveClass(/expired/);
+  await expect(top.locator("td.dest")).toHaveText(destination);
+  await expect(top.locator("td.num")).toHaveText("3");
+
+  const stale = page.locator("#top tr", { hasText: `${code}-stale` });
+  await expect(stale).toHaveCount(1);
+  await expect(stale).toHaveClass(/expired/);
+  await expect(stale.locator("td.num")).toHaveText("0 Expired");
+
+  await page.getByRole("link", { name: "Home" }).click();
+  await expect(page).toHaveURL(/\/$/);
+  await expect(page.getByRole("heading", { name: "hop" })).toBeVisible();
 });

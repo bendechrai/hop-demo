@@ -28,6 +28,23 @@ body {
 
 .hero { margin-bottom: 32px; }
 
+.nav {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 8px;
+}
+
+.nav a {
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 14px;
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.nav a:hover { border-color: var(--accent); }
+
 h1 {
   margin: 0;
   font-size: 56px;
@@ -137,6 +154,32 @@ button.ghost {
   word-break: break-all;
 }
 
+.totals {
+  display: flex;
+  gap: 12px;
+}
+
+.total {
+  flex: 1;
+  padding: 18px 20px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.figure {
+  font-size: 36px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.tag {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
 .links { margin-top: 44px; }
 
 .links-head {
@@ -190,6 +233,8 @@ tr.expired button.danger { opacity: 1; }
 
 td a { color: var(--accent); text-decoration: none; }
 td a:hover { text-decoration: underline; }
+
+td.code { font-family: ui-monospace, "SF Mono", Menlo, monospace; white-space: nowrap; }
 
 td.dest {
   color: var(--muted);
