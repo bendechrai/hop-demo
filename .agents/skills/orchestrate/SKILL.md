@@ -94,7 +94,10 @@ from whatever it was.
      other group's lines are.
    - The PR body has a `## Evidence` table whose short shas match
      `shortCommit` in `evidence/<change>/g<g>/before.json` and `after.json`,
-     and the after record has every step `ok: true`.
+     and the after record has every step `ok: true`. `ok: true` is not
+     enough: read the actual values and look at the screenshots. An
+     `expectText` is a substring match, and a step file with no wait after a
+     submit can race and drop a row while every step still passes.
    - Every waiver is written as `Waived: <gate> - <reason>` and the reason
      holds up.
    - `agentboard show <id>` shows the PR link and the handoff to `orch`.
@@ -116,8 +119,11 @@ from whatever it was.
    `agentboard show <id>`.
 
 8. **On `VERDICT: CHANGES` (or a failed verify).**
-   - `agentboard move <id> implementing --as orch`
    - `agentboard comment <id> "Send-back round <k>: <findings>" --as orch`
+   - `agentboard handoff <id> --to impl-g<g> --status implementing --note "Send-back round <k>" --as orch`
+     (hand it back rather than asking the implementer to claim it: a claim
+     on a ticket assigned to `orch` is refused, and the implementer rightly
+     stops)
    - Dispatch an implementer (the same one with SendMessage if it is still
      alive, or a fresh one with the brief plus the findings) to fix the
      findings on the same branch.
