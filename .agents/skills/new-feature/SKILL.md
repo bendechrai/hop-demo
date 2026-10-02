@@ -51,7 +51,7 @@ Replace `<id>`, `<you>`, `<reviewer>`, `<type>`, `<change>` and `<group>` below.
 7. **Ship.**
    ```
    git push -u origin <branch>
-   gh pr create --fill --base main
+   gh pr create --base main --title "<title>" --body-file <file>   # body written to a file first, see the evidence skill
    ```
    The pre-push gate runs on the push. Put the checks you ran (and any "Waived: <gate> -
    <reason>") in the PR body. Then:

@@ -41,11 +41,24 @@ the same way against named commits, is evidence.
    |---|---|---|
    | <what was checked> | <short sha>: <result> | <short sha>: <result> |
 
-   Then link each image as
-   `https://github.com/<owner>/<repo>/blob/<branch>/evidence/<change>/<file>.png?raw=true`,
-   for example
-   `![after](https://github.com/bendechrai/hop-demo/blob/fix/reserved-codes-g1/evidence/reserved-codes/after-home.png?raw=true)`.
-   The short shas come from `shortCommit` in the records, not from memory.
+   Link each image by the commit sha of your evidence commit, never by
+   branch name (the branch is deleted on merge and the image 404s):
+   `https://github.com/<owner>/<repo>/blob/<commit sha>/evidence/<change>/<file>.png?raw=true`,
+   where the sha is `git rev-parse HEAD` after you committed the evidence
+   (use the full sha). The orchestrator rewrites it to the merge sha after
+   the merge, because a squash merge drops your commits' shas.
+   The short shas in the table come from `shortCommit` in the records, not
+   from memory.
+
+   Write the PR body to a file and create the PR with `--body-file`. Never
+   put markdown with backticks or apostrophes inside a shell string: the
+   shell runs backticked text as commands. Use a quoted heredoc:
+   ```
+   cat > "${TMPDIR:-/tmp}/pr-body.md" <<'EOF'
+   ...the body below...
+   EOF
+   gh pr create --base main --title "<title>" --body-file "${TMPDIR:-/tmp}/pr-body.md"
+   ```
 
    Skeleton for the whole PR body:
 

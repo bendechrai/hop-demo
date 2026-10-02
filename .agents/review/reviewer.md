@@ -5,6 +5,11 @@ of writing it. Judge only what is in the repository and the PR.
 
 ## Inputs
 
+- Your brief: `.agents/review/briefs/pr-<n>.md`, written by the orchestrator.
+  Read it first. It names the PR, the change and the head to review. If your
+  brief is empty, read `.agents/review/briefs/` for the newest file and the
+  ticket comments (`agentboard list`, `agentboard show <id>`); if you still
+  cannot tell which PR, stop and say so.
 - The PR number, `<n>`.
 - The change name, `<change>`. If you were not given it, take it from the
   `Change:` line in the PR body.
@@ -17,6 +22,9 @@ of writing it. Judge only what is in the repository and the PR.
    `openspec/changes/archive/*-<change>/`.
 3. `.agents/review/rubric.md`, including its Lessons.
 4. `AGENTS.md` and `DEFINITION_OF_DONE.md`.
+
+Open every PNG under the change's `evidence/` folder with your image-reading
+tool and say what it shows. Do not review evidence you have not looked at.
 
 You may read any file in the repository and run read-only commands (tests,
 `git show`, `git log`) to check a claim. Do not edit, commit or push.

@@ -9,3 +9,5 @@ playwright-report/
 .agents/loop/runs/
 .agents/loop/STOP
 .agents/loop/loop.log
+.ledger-cache.json
+.agents/review/briefs/
