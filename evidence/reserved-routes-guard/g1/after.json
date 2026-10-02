@@ -1,12 +1,27 @@
 {
   "label": "after",
   "ref": "HEAD",
-  "commit": "7f012f9a7a4b3a07818ed1bb1f5b95b9cc3987e3",
-  "shortCommit": "7f012f9",
-  "capturedAt": "2026-10-02T18:00:27.376Z",
-  "passed": 4,
+  "commit": "ab2c635173f430e8790730f36d2077ecdfa5b258",
+  "shortCommit": "ab2c635",
+  "capturedAt": "2026-10-02T18:01:36.963Z",
+  "passed": 6,
   "failed": 0,
   "steps": [
+    {
+      "step": {
+        "goto": "/health"
+      },
+      "ok": true,
+      "status": 200,
+      "url": "/health"
+    },
+    {
+      "step": {
+        "screenshot": "health"
+      },
+      "ok": true,
+      "file": "after-health.png"
+    },
     {
       "step": {
         "request": {

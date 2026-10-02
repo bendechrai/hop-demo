@@ -1,4 +1,6 @@
 [
+  { "goto": "/health" },
+  { "screenshot": "health" },
   { "request": { "method": "GET", "path": "/health" }, "expectStatus": 200 },
   { "request": { "method": "GET", "path": "/stats" }, "expectStatus": 200 },
   { "request": { "method": "GET", "path": "/api/stats" }, "expectStatus": 200 },
