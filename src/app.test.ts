@@ -247,3 +247,15 @@ test("GET /api/links.csv returns the header and one row per link, expired includ
   assert.ok(live?.endsWith(","), "a link with no expiry has an empty expires_at");
   assert.ok(old?.endsWith(",2020-01-01T00:00:00.000Z"));
 });
+
+test("POST /api/links refuses the code stats with 400 and /stats still shows the stats page", async () => {
+  const res = await postLink({ url: "https://example.com/reserved", code: "stats" });
+  assert.equal(res.status, 400);
+  const body = (await res.json()) as { error: string };
+  assert.match(body.error, /reserved/);
+  assert.equal((await fetch(`${base}/api/links/stats`)).status, 404);
+
+  const page = await fetch(`${base}/stats`, { redirect: "manual" });
+  assert.equal(page.status, 200);
+  assert.match(await page.text(), /<title>Stats - hop<\/title>/);
+});
