@@ -38,6 +38,11 @@ test("labels show as tags and the filter narrows the table", async ({ page }) =>
   await expect(page.locator("#rows tr", { hasText: links[0].code })).toHaveCount(1);
   await expect(page.locator("#rows tr", { hasText: links[1].code })).toHaveCount(1);
 
+  // The page reloads the list every five seconds; the filter must outlive it.
+  const refreshed = page.waitForResponse((res) => res.url().endsWith("/api/links") && res.request().method() === "GET");
+  await refreshed;
+  await expect(mine).toHaveCount(2);
+
   await filter.fill("nobody-has-this");
   await expect(page.locator("#rows tr.empty")).toHaveText("No link matches that label.");
 
