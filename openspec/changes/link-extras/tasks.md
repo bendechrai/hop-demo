@@ -2,10 +2,10 @@
 
 ## 1. CSV export
 
-- [ ] 1.1 Add `src/services/csv.ts` that turns a list of links into CSV text with the header `code,url,clicks,created_at,expires_at`, an empty `expires_at` for a link that never expires, and values quoted only when they hold a comma, a double quote or a line break (inner quotes doubled); verify `src/services/csv.test.ts` covers no links, a plain row, a null expiry, a comma, a double quote and a line break
-- [ ] 1.2 Add `src/routes/export.ts` serving `GET /api/links.csv` with content type `text/csv` and all links (read through the existing `listLinks` action and formatted by the CSV service), and add its one mount line to `src/app.ts` next to the other `/api` lines; verify `src/app.test.ts` gets 200, `text/csv`, the header row and one row per link including an expired one
-- [ ] 1.3 Add an "Export CSV" link to `public/index.html` pointing at `/api/links.csv`; verify by opening the home page and following the link
-- [ ] 1.4 Add the scenario in a new file `e2e/export.spec.ts` (not in `e2e/hop.spec.ts`) that creates a link, follows the "Export CSV" link from the home page and checks the response holds the header row and the new link's code and URL; verify `npm run e2e` passes
+- [x] 1.1 Add `src/services/csv.ts` that turns a list of links into CSV text with the header `code,url,clicks,created_at,expires_at`, an empty `expires_at` for a link that never expires, and values quoted only when they hold a comma, a double quote or a line break (inner quotes doubled); verify `src/services/csv.test.ts` covers no links, a plain row, a null expiry, a comma, a double quote and a line break
+- [x] 1.2 Add `src/routes/export.ts` serving `GET /api/links.csv` with content type `text/csv` and all links (read through the existing `listLinks` action and formatted by the CSV service), and add its one mount line to `src/app.ts` next to the other `/api` lines; verify `src/app.test.ts` gets 200, `text/csv`, the header row and one row per link including an expired one
+- [x] 1.3 Add an "Export CSV" link to `public/index.html` pointing at `/api/links.csv`; verify by opening the home page and following the link
+- [x] 1.4 Add the scenario in a new file `e2e/export.spec.ts` (not in `e2e/hop.spec.ts`) that creates a link, follows the "Export CSV" link from the home page and checks the response holds the header row and the new link's code and URL; verify `npm run e2e` passes
 
 ## 2. Link preview page
 

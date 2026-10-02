@@ -231,3 +231,19 @@ test("GET /:code still redirects and counts while /:code+ does not", async () =>
   assert.equal(res.status, 302);
   assert.equal(links.get("prev-both")?.clicks, 1);
 });
+
+test("GET /api/links.csv returns the header and one row per link, expired included", async () => {
+  links.insert("csv-live", "https://example.com/csv-live", null);
+  links.insert("csv-old", "https://example.com/csv-old", "2020-01-01T00:00:00.000Z");
+
+  const res = await fetch(`${base}/api/links.csv`);
+  assert.equal(res.status, 200);
+  assert.match(res.headers.get("content-type") ?? "", /^text\/csv/);
+  const lines = (await res.text()).split("\r\n").filter((line) => line !== "");
+  assert.equal(lines[0], "code,url,clicks,created_at,expires_at");
+  assert.equal(lines.length - 1, links.list().length);
+  const live = lines.find((line) => line.startsWith("csv-live,"));
+  const old = lines.find((line) => line.startsWith("csv-old,"));
+  assert.ok(live?.endsWith(","), "a link with no expiry has an empty expires_at");
+  assert.ok(old?.endsWith(",2020-01-01T00:00:00.000Z"));
+});
