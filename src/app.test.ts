@@ -259,3 +259,34 @@ test("POST /api/links refuses the code stats with 400 and /stats still shows the
   assert.equal(page.status, 200);
   assert.match(await page.text(), /<title>Stats - hop<\/title>/);
 });
+
+test("POST /api/links stores a label and the detail and list report it", async () => {
+  const res = await postLink({ url: "https://example.com/tagged", label: "Docs team" });
+  assert.equal(res.status, 201);
+  const body = (await res.json()) as Presented;
+  assert.equal(body.label, "Docs team");
+
+  const detail = (await (await fetch(`${base}/api/links/${body.code}`)).json()) as Presented;
+  assert.equal(detail.label, "Docs team");
+  const list = (await (await fetch(`${base}/api/links`)).json()) as Presented[];
+  assert.equal(list.find((link) => link.code === body.code)?.label, "Docs team");
+});
+
+test("a link without a label reports label null", async () => {
+  const body = (await (await postLink({ url: "https://example.com/plain" })).json()) as Presented;
+  assert.equal(body.label, null);
+  const detail = (await (await fetch(`${base}/api/links/${body.code}`)).json()) as Presented;
+  assert.equal(detail.label, null);
+  const list = (await (await fetch(`${base}/api/links`)).json()) as Presented[];
+  assert.equal(list.find((link) => link.code === body.code)?.label, null);
+});
+
+test("POST /api/links rejects a 41-character label and creates nothing", async () => {
+  const before = ((await (await fetch(`${base}/api/links`)).json()) as Presented[]).length;
+  const res = await postLink({ url: "https://example.com/long", label: "a".repeat(41) });
+  assert.equal(res.status, 400);
+  const body = (await res.json()) as { error?: string };
+  assert.match(body.error ?? "", /Label must be 1 to 40 characters/);
+  const after = ((await (await fetch(`${base}/api/links`)).json()) as Presented[]).length;
+  assert.equal(after, before);
+});

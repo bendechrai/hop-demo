@@ -1,0 +1,11 @@
+[
+  { "request": { "method": "POST", "path": "/api/links", "body": { "url": "https://example.com/docs", "code": "lbl-docs", "label": "Docs team" } }, "expectStatus": 201 },
+  { "goto": "/api/links/lbl-docs" },
+  { "expectText": "\"label\":\"Docs team\"" },
+  { "request": { "method": "POST", "path": "/api/links", "body": { "url": "https://example.com/long", "code": "lbl-long", "label": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" } }, "expectStatus": 400 },
+  { "request": { "method": "POST", "path": "/api/links", "body": { "url": "https://example.com/plain", "code": "lbl-plain" } }, "expectStatus": 201 },
+  { "goto": "/api/links/lbl-plain" },
+  { "expectText": "\"label\":null" },
+  { "goto": "/api/links" },
+  { "expectText": "\"label\":\"Docs team\"" }
+]

@@ -18,7 +18,12 @@ export function linksRouter(links: LinksService): Router {
     const field = (name: string): unknown =>
       typeof body === "object" && body !== null ? Reflect.get(body, name) : undefined;
     const result = createLink(
-      { url: field("url"), code: field("code"), expiresInDays: field("expiresInDays") },
+      {
+        url: field("url"),
+        code: field("code"),
+        expiresInDays: field("expiresInDays"),
+        label: field("label"),
+      },
       links,
     );
     if (!result.ok) {

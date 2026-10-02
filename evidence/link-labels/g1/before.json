@@ -1,0 +1,130 @@
+{
+  "label": "before",
+  "ref": "origin/main",
+  "commit": "49568ef8100ec9fa170016b56e15de5fee6eda65",
+  "shortCommit": "49568ef",
+  "capturedAt": "2026-10-02T04:01:35.448Z",
+  "passed": 5,
+  "failed": 4,
+  "steps": [
+    {
+      "step": {
+        "request": {
+          "method": "POST",
+          "path": "/api/links",
+          "body": {
+            "url": "https://example.com/docs",
+            "code": "lbl-docs",
+            "label": "Docs team"
+          }
+        },
+        "expectStatus": 201
+      },
+      "ok": true,
+      "status": 201,
+      "body": {
+        "code": "lbl-docs",
+        "url": "https://example.com/docs",
+        "clicks": 0,
+        "createdAt": "2026-10-02T04:01:20.369Z",
+        "expiresAt": null,
+        "expired": false,
+        "shortUrl": "http://127.0.0.1:56508/lbl-docs"
+      }
+    },
+    {
+      "step": {
+        "goto": "/api/links/lbl-docs"
+      },
+      "ok": true,
+      "status": 200,
+      "url": "/api/links/lbl-docs"
+    },
+    {
+      "step": {
+        "expectText": "\"label\":\"Docs team\""
+      },
+      "ok": false,
+      "actual": "{\"code\":\"lbl-docs\",\"url\":\"https://example.com/docs\",\"clicks\":0,\"createdAt\":\"2026-10-02T04:01:20.369Z\",\"expiresAt\":null,\"expired\":false,\"shortUrl\":\"http://127.0.0.1:56508/lbl-docs\"}"
+    },
+    {
+      "step": {
+        "request": {
+          "method": "POST",
+          "path": "/api/links",
+          "body": {
+            "url": "https://example.com/long",
+            "code": "lbl-long",
+            "label": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          }
+        },
+        "expectStatus": 400
+      },
+      "ok": false,
+      "status": 201,
+      "body": {
+        "code": "lbl-long",
+        "url": "https://example.com/long",
+        "clicks": 0,
+        "createdAt": "2026-10-02T04:01:25.397Z",
+        "expiresAt": null,
+        "expired": false,
+        "shortUrl": "http://127.0.0.1:56508/lbl-long"
+      }
+    },
+    {
+      "step": {
+        "request": {
+          "method": "POST",
+          "path": "/api/links",
+          "body": {
+            "url": "https://example.com/plain",
+            "code": "lbl-plain"
+          }
+        },
+        "expectStatus": 201
+      },
+      "ok": true,
+      "status": 201,
+      "body": {
+        "code": "lbl-plain",
+        "url": "https://example.com/plain",
+        "clicks": 0,
+        "createdAt": "2026-10-02T04:01:25.400Z",
+        "expiresAt": null,
+        "expired": false,
+        "shortUrl": "http://127.0.0.1:56508/lbl-plain"
+      }
+    },
+    {
+      "step": {
+        "goto": "/api/links/lbl-plain"
+      },
+      "ok": true,
+      "status": 200,
+      "url": "/api/links/lbl-plain"
+    },
+    {
+      "step": {
+        "expectText": "\"label\":null"
+      },
+      "ok": false,
+      "actual": "{\"code\":\"lbl-plain\",\"url\":\"https://example.com/plain\",\"clicks\":0,\"createdAt\":\"2026-10-02T04:01:25.400Z\",\"expiresAt\":null,\"expired\":false,\"shortUrl\":\"http://127.0.0.1:56508/lbl-plain\"}"
+    },
+    {
+      "step": {
+        "goto": "/api/links"
+      },
+      "ok": true,
+      "status": 200,
+      "url": "/api/links"
+    },
+    {
+      "step": {
+        "expectText": "\"label\":\"Docs team\""
+      },
+      "ok": false,
+      "actual": "[{\"code\":\"lbl-plain\",\"url\":\"https://example.com/plain\",\"clicks\":0,\"createdAt\":\"2026-10-02T04:01:25.400Z\",\"expiresAt\":null,\"expired\":false,\"shortUrl\":\"http://127.0.0.1:56508/lbl-plain\"},{\"code\":\"lbl-long\",\"url\":\"https://example.com/long\",\"clicks\":0,\"createdAt\":\"2026-10-02T04:01:25.397Z\",\"expiresAt\":n"
+    }
+  ]
+}

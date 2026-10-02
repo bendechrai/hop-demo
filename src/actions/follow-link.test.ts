@@ -8,6 +8,7 @@ const seed = {
   clicks: 0,
   createdAt: "2026-01-01T00:00:00.000Z",
   expiresAt: null,
+  label: null,
 };
 
 test("followLink resolves generated and custom codes and counts the click", () => {
