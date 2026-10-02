@@ -1,0 +1,28 @@
+## MODIFIED Requirements
+
+### Requirement: Reserved words cannot be custom codes
+Creating a link with a custom code that equals a reserved word SHALL respond 400 with a message saying the code is reserved, and SHALL NOT create a link. The reserved words SHALL be every first path segment the app serves itself: at least `api`, `stats`, `health`, and the name without extension of every file the app serves from `public/`. The comparison SHALL ignore case.
+
+#### Scenario: The stats page name
+- **WHEN** a client posts a new link with the custom code `stats`
+- **THEN** the response is 400 with a message saying the code is reserved, and no link with that code exists
+
+#### Scenario: The health endpoint name
+- **WHEN** a client posts a new link with the custom code `health`
+- **THEN** the response is 400 with a message saying the code is reserved, and no link with that code exists
+
+#### Scenario: A reserved word in another case
+- **WHEN** a client posts a new link with the custom code `API`
+- **THEN** the response is 400 with a message saying the code is reserved
+
+#### Scenario: The stats page still shows
+- **WHEN** a client asks to create the code `stats` and then fetches `/stats`
+- **THEN** the creation is refused and `/stats` shows the stats page
+
+#### Scenario: An ordinary code
+- **WHEN** a client posts a new link with the custom code `my-stats`
+- **THEN** the link is created with that code
+
+#### Scenario: Every mounted top-level route is reserved
+- **WHEN** the app mounts a router under a top-level prefix
+- **THEN** the first path segment of that prefix is a reserved word, and a test fails if it is not
