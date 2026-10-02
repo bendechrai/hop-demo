@@ -69,6 +69,7 @@ function render(fetched) {
       const tag = document.createElement("span");
       tag.className = "tag label-tag";
       tag.textContent = link.label;
+      tag.title = link.label;
       line.appendChild(tag);
     }
     const dest = cell("dest", line);

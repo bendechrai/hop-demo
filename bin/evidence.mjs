@@ -17,6 +17,7 @@ const USAGE = `Usage: node bin/evidence.mjs --ref <git ref> --out <dir> --name <
   --name    label for this run, for example before or after
   --script  JSON file holding a list of steps, run in order:
               { "goto": "/path" }
+              { "viewport": { "width": 1280, "height": 800 } }
               { "fill": "<selector>", "value": "text" }
               { "click": "<selector>" }
               { "expectText": "text", "selector": "<selector>" }   selector defaults to body
@@ -26,7 +27,7 @@ const USAGE = `Usage: node bin/evidence.mjs --ref <git ref> --out <dir> --name <
 The app runs with HOP_DB=:memory: on a free port. Exit 0 even when an
 expectation fails; each step records ok true or false.`;
 
-const STEP_KINDS = ["goto", "fill", "click", "expectText", "screenshot", "request"];
+const STEP_KINDS = ["goto", "viewport", "fill", "click", "expectText", "screenshot", "request"];
 const TIMEOUT_MS = 5000;
 
 function fail(message, code = 1) {
@@ -62,6 +63,13 @@ function parseSteps(text) {
     const kinds = STEP_KINDS.filter((kind) => step && Object.hasOwn(step, kind));
     if (kinds.length !== 1) throw new Error(`step ${i + 1} must have exactly one of ${STEP_KINDS.join(", ")}`);
     if (kinds[0] === "fill" && typeof step.value !== "string") throw new Error(`step ${i + 1}: fill needs a value`);
+    if (kinds[0] === "viewport") {
+      const width = step.viewport?.width;
+      const height = step.viewport?.height;
+      if (!Number.isInteger(width) || !Number.isInteger(height) || width <= 0 || height <= 0) {
+        throw new Error(`step ${i + 1}: viewport needs positive integer width and height`);
+      }
+    }
     if (kinds[0] === "request" && typeof step.request?.path !== "string") {
       throw new Error(`step ${i + 1}: request needs a path`);
     }
@@ -110,6 +118,10 @@ async function readBody(response) {
 }
 
 async function runStep(step, page, base, out, label) {
+  if ("viewport" in step) {
+    await page.setViewportSize(step.viewport);
+    return { ok: true, viewport: step.viewport };
+  }
   if ("goto" in step) {
     const response = await page.goto(base + step.goto);
     return { ok: true, status: response?.status() ?? null, url: page.url().replace(base, "") };

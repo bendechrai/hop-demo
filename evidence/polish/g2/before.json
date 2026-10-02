@@ -1,0 +1,74 @@
+{
+  "label": "before",
+  "ref": "origin/main",
+  "commit": "a305a56e82563990e61a26b174bd57bc6239c6ad",
+  "shortCommit": "a305a56",
+  "capturedAt": "2026-10-02T17:02:09.284Z",
+  "passed": 8,
+  "failed": 0,
+  "steps": [
+    {
+      "step": {
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        }
+      },
+      "ok": true,
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      }
+    },
+    {
+      "step": {
+        "goto": "/"
+      },
+      "ok": true,
+      "status": 200,
+      "url": "/"
+    },
+    {
+      "step": {
+        "fill": "#url",
+        "value": "https://example.com/some/really/long/destination/path/for/polish/evidence/that/keeps/going/with/many/segments/and/query?utm_source=weekly&utm_medium=email&utm_campaign=autumn"
+      },
+      "ok": true
+    },
+    {
+      "step": {
+        "fill": "#code",
+        "value": "ev-polish-g2-wide"
+      },
+      "ok": true
+    },
+    {
+      "step": {
+        "fill": "#label",
+        "value": "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW"
+      },
+      "ok": true
+    },
+    {
+      "step": {
+        "click": "button[type='submit']"
+      },
+      "ok": true
+    },
+    {
+      "step": {
+        "expectText": "ev-polish-g2-wide",
+        "selector": "#rows"
+      },
+      "ok": true,
+      "actual": "127.0.0.1:49947/ev-polish-g2-wide\t\nhttps://example.com/some/really/long/destination/path/for/polish/evidence/that/keeps/going/with/many/segments/and/query?utm_source=weekly&utm_medium=email&utm_campaign=autumn\nWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW\n\t0\tDelete"
+    },
+    {
+      "step": {
+        "screenshot": "labels-wide"
+      },
+      "ok": true,
+      "file": "before-labels-wide.png"
+    }
+  ]
+}
