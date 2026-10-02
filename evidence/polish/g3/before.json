@@ -1,0 +1,65 @@
+{
+  "label": "before",
+  "ref": "origin/main",
+  "commit": "a305a56e82563990e61a26b174bd57bc6239c6ad",
+  "shortCommit": "a305a56",
+  "capturedAt": "2026-10-02T17:02:12.694Z",
+  "passed": 5,
+  "failed": 0,
+  "steps": [
+    {
+      "step": {
+        "request": {
+          "method": "POST",
+          "path": "/api/links",
+          "body": {
+            "url": "https://example.com/ok",
+            "code": "ok1"
+          }
+        },
+        "expectStatus": 201
+      },
+      "ok": true,
+      "status": 201,
+      "body": {
+        "code": "ok1",
+        "url": "https://example.com/ok",
+        "clicks": 0,
+        "createdAt": "2026-10-02T17:02:12.604Z",
+        "expiresAt": null,
+        "label": null,
+        "expired": false,
+        "shortUrl": "http://127.0.0.1:49961/ok1"
+      }
+    },
+    {
+      "step": {
+        "goto": "/health"
+      },
+      "ok": true,
+      "status": 200,
+      "url": "/health"
+    },
+    {
+      "step": {
+        "expectText": "\"status\":\"ok\""
+      },
+      "ok": true,
+      "actual": "{\"status\":\"ok\",\"links\":1}"
+    },
+    {
+      "step": {
+        "expectText": "\"links\":1"
+      },
+      "ok": true,
+      "actual": "{\"status\":\"ok\",\"links\":1}"
+    },
+    {
+      "step": {
+        "screenshot": "health"
+      },
+      "ok": true,
+      "file": "before-health.png"
+    }
+  ]
+}

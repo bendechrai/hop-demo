@@ -1,0 +1,32 @@
+✔ GET /health answers 200 JSON with zero links on an empty database (25.817834ms)
+✔ GET /health counts every link, expired included, and counts no click (4.064667ms)
+✔ the code health is refused and /health still answers (7.253916ms)
+✖ GET /health wins over a stored legacy health code and counts it (2.532708ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 3
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 209.291917
+
+✖ failing tests:
+
+test at src/app-health.test.ts:65:1
+✖ GET /health wins over a stored legacy health code and counts it (2.532708ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  302 !== 200
+  
+      at TestContext.<anonymous> (file:///Users/ben/Projects/software-factory-workshop/demo/hop.worktrees/feat-polish-g3/src/app-health.test.ts:71:10)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 302,
+    expected: 200,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

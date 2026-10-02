@@ -1,0 +1,25 @@
+[
+  {
+    "request": {
+      "method": "POST",
+      "path": "/api/links",
+      "body": {
+        "url": "https://example.com/ok",
+        "code": "ok1"
+      }
+    },
+    "expectStatus": 201
+  },
+  {
+    "goto": "/health"
+  },
+  {
+    "expectText": "\"status\":\"ok\""
+  },
+  {
+    "expectText": "\"links\":1"
+  },
+  {
+    "screenshot": "health"
+  }
+]

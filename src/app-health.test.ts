@@ -61,3 +61,17 @@ test("the code health is refused and /health still answers", async () => {
   assert.equal(health.status, 200);
   assert.equal(((await health.json()) as { status: string }).status, "ok");
 });
+
+test("GET /health wins over a stored legacy health code and counts it", async () => {
+  const before = links.list().length;
+  links.insert("legacy-one", "https://example.com/legacy-1", null);
+  links.insert("health", "https://example.com/legacy-health", null);
+
+  const res = await fetch(base + "/health", { redirect: "manual" });
+  assert.equal(res.status, 200);
+  assert.match(res.headers.get("content-type") ?? "", /application\/json/);
+  assert.equal(
+    await res.text(),
+    JSON.stringify({ status: "ok", links: before + 2 }),
+  );
+});
