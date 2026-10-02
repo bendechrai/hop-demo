@@ -1,24 +1,127 @@
 [
-  { "goto": "/" },
-  { "fill": "#url", "value": "https://example.com/docs" },
-  { "fill": "#code", "value": "docs-one" },
-  { "fill": "#label", "value": "docs" },
-  { "click": "button[type=submit]" },
-  { "expectText": "Short link created.", "selector": "#message" },
-  { "fill": "#url", "value": "https://example.com/team" },
-  { "fill": "#code", "value": "docs-team" },
-  { "fill": "#label", "value": "Docs team" },
-  { "click": "button[type=submit]" },
-  { "fill": "#url", "value": "https://example.com/sales" },
-  { "fill": "#code", "value": "sales-one" },
-  { "fill": "#label", "value": "sales" },
-  { "click": "button[type=submit]" },
-  { "fill": "#url", "value": "https://example.com/plain" },
-  { "fill": "#code", "value": "plain-one" },
-  { "click": "button[type=submit]" },
-  { "expectText": "docs", "selector": "#rows .tag" },
-  { "screenshot": "table-with-tags" },
-  { "fill": "#filter", "value": "doc" },
-  { "expectText": "2 links", "selector": "#count" },
-  { "screenshot": "filtered" }
+  {
+    "goto": "/"
+  },
+  {
+    "fill": "#url",
+    "value": "https://example.com/docs"
+  },
+  {
+    "fill": "#code",
+    "value": "docs-one"
+  },
+  {
+    "fill": "#label",
+    "value": "docs"
+  },
+  {
+    "click": "button[type=submit]"
+  },
+  {
+    "expectText": "Short link created.",
+    "selector": "#message"
+  },
+  {
+    "expectText": "docs-one",
+    "selector": "#rows"
+  },
+  {
+    "fill": "#url",
+    "value": "https://example.com/team"
+  },
+  {
+    "fill": "#code",
+    "value": "docs-team"
+  },
+  {
+    "fill": "#label",
+    "value": "Docs team"
+  },
+  {
+    "click": "button[type=submit]"
+  },
+  {
+    "expectText": "Short link created.",
+    "selector": "#message"
+  },
+  {
+    "expectText": "docs-team",
+    "selector": "#rows"
+  },
+  {
+    "fill": "#url",
+    "value": "https://example.com/sales"
+  },
+  {
+    "fill": "#code",
+    "value": "sales-one"
+  },
+  {
+    "fill": "#label",
+    "value": "sales"
+  },
+  {
+    "click": "button[type=submit]"
+  },
+  {
+    "expectText": "Short link created.",
+    "selector": "#message"
+  },
+  {
+    "expectText": "sales-one",
+    "selector": "#rows"
+  },
+  {
+    "fill": "#url",
+    "value": "https://example.com/plain"
+  },
+  {
+    "fill": "#code",
+    "value": "plain-one"
+  },
+  {
+    "fill": "#label",
+    "value": ""
+  },
+  {
+    "click": "button[type=submit]"
+  },
+  {
+    "expectText": "Short link created.",
+    "selector": "#message"
+  },
+  {
+    "expectText": "plain-one",
+    "selector": "#rows"
+  },
+  {
+    "expectText": "docs",
+    "selector": "#rows tr:has(a[href$='/docs-one']) .tag"
+  },
+  {
+    "expectText": "Docs team",
+    "selector": "#rows tr:has(a[href$='/docs-team']) .tag"
+  },
+  {
+    "expectText": "sales",
+    "selector": "#rows tr:has(a[href$='/sales-one']) .tag"
+  },
+  {
+    "expectText": "4 links",
+    "selector": "#count"
+  },
+  {
+    "screenshot": "table-with-tags"
+  },
+  {
+    "fill": "#filter",
+    "value": "doc"
+  },
+  {
+    "expectText": "2 links",
+    "selector": "#count"
+  },
+  {
+    "screenshot": "filtered"
+  }
 ]
