@@ -156,3 +156,11 @@ test("createLink refuses an invalid label and creates no link", () => {
     assert.equal(links.rows.length, 0);
   }
 });
+
+test("createLink reports a bad expiry before a bad label", () => {
+  const links = fakeLinks();
+  const result = createLink({ url: "https://example.com", expiresInDays: 0, label: "bad!" }, links, now);
+  assert.equal(result.ok, false);
+  if (!result.ok) assert.match(result.error, /whole number of days from 1 to 365/);
+  assert.equal(links.rows.length, 0);
+});
