@@ -1,0 +1,101 @@
+{
+  "label": "after",
+  "ref": "HEAD",
+  "commit": "1d8c491b5351e68afa6015edfa333c21d8b382e6",
+  "shortCommit": "1d8c491",
+  "capturedAt": "2026-10-02T03:19:23.661Z",
+  "passed": 10,
+  "failed": 0,
+  "steps": [
+    {
+      "step": {
+        "request": {
+          "method": "POST",
+          "path": "/api/links",
+          "body": {
+            "url": "https://example.com/reserved",
+            "code": "stats"
+          }
+        },
+        "expectStatus": 400
+      },
+      "ok": true,
+      "status": 400,
+      "body": {
+        "error": "The code \"stats\" is reserved for a page of hop. Choose another code."
+      }
+    },
+    {
+      "step": {
+        "request": {
+          "method": "GET",
+          "path": "/api/links/stats"
+        },
+        "expectStatus": 404
+      },
+      "ok": true,
+      "status": 404,
+      "body": {
+        "error": "Not found."
+      }
+    },
+    {
+      "step": {
+        "goto": "/stats"
+      },
+      "ok": true,
+      "status": 200,
+      "url": "/stats"
+    },
+    {
+      "step": {
+        "screenshot": "stats"
+      },
+      "ok": true,
+      "file": "after-stats.png"
+    },
+    {
+      "step": {
+        "goto": "/"
+      },
+      "ok": true,
+      "status": 200,
+      "url": "/"
+    },
+    {
+      "step": {
+        "fill": "#url",
+        "value": "https://example.com/reserved-api"
+      },
+      "ok": true
+    },
+    {
+      "step": {
+        "fill": "#code",
+        "value": "api"
+      },
+      "ok": true
+    },
+    {
+      "step": {
+        "click": "button[type=submit]"
+      },
+      "ok": true
+    },
+    {
+      "step": {
+        "expectText": "reserved",
+        "selector": "#message"
+      },
+      "ok": true,
+      "actual": "The code \"api\" is reserved for a page of hop. Choose another code."
+    },
+    {
+      "step": {
+        "screenshot": "home-api"
+      },
+      "ok": true,
+      "file": "after-home-api.png"
+    }
+  ]
+}

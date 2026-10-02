@@ -1,0 +1,12 @@
+[
+  { "request": { "method": "POST", "path": "/api/links", "body": { "url": "https://example.com/reserved", "code": "stats" } }, "expectStatus": 400 },
+  { "request": { "method": "GET", "path": "/api/links/stats" }, "expectStatus": 404 },
+  { "goto": "/stats" },
+  { "screenshot": "stats" },
+  { "goto": "/" },
+  { "fill": "#url", "value": "https://example.com/reserved-api" },
+  { "fill": "#code", "value": "api" },
+  { "click": "button[type=submit]" },
+  { "expectText": "reserved", "selector": "#message" },
+  { "screenshot": "home-api" }
+]

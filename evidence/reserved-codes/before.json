@@ -1,0 +1,113 @@
+{
+  "label": "before",
+  "ref": "origin/main",
+  "commit": "4104b0013dc5c7b04d1aea9f3ff964f621548230",
+  "shortCommit": "4104b00",
+  "capturedAt": "2026-10-02T03:19:20.344Z",
+  "passed": 7,
+  "failed": 3,
+  "steps": [
+    {
+      "step": {
+        "request": {
+          "method": "POST",
+          "path": "/api/links",
+          "body": {
+            "url": "https://example.com/reserved",
+            "code": "stats"
+          }
+        },
+        "expectStatus": 400
+      },
+      "ok": false,
+      "status": 201,
+      "body": {
+        "code": "stats",
+        "url": "https://example.com/reserved",
+        "clicks": 0,
+        "createdAt": "2026-10-02T03:19:14.923Z",
+        "expiresAt": null,
+        "expired": false,
+        "shortUrl": "http://127.0.0.1:53135/stats"
+      }
+    },
+    {
+      "step": {
+        "request": {
+          "method": "GET",
+          "path": "/api/links/stats"
+        },
+        "expectStatus": 404
+      },
+      "ok": false,
+      "status": 200,
+      "body": {
+        "code": "stats",
+        "url": "https://example.com/reserved",
+        "clicks": 0,
+        "createdAt": "2026-10-02T03:19:14.923Z",
+        "expiresAt": null,
+        "expired": false,
+        "shortUrl": "http://127.0.0.1:53135/stats"
+      }
+    },
+    {
+      "step": {
+        "goto": "/stats"
+      },
+      "ok": true,
+      "status": 200,
+      "url": "/stats"
+    },
+    {
+      "step": {
+        "screenshot": "stats"
+      },
+      "ok": true,
+      "file": "before-stats.png"
+    },
+    {
+      "step": {
+        "goto": "/"
+      },
+      "ok": true,
+      "status": 200,
+      "url": "/"
+    },
+    {
+      "step": {
+        "fill": "#url",
+        "value": "https://example.com/reserved-api"
+      },
+      "ok": true
+    },
+    {
+      "step": {
+        "fill": "#code",
+        "value": "api"
+      },
+      "ok": true
+    },
+    {
+      "step": {
+        "click": "button[type=submit]"
+      },
+      "ok": true
+    },
+    {
+      "step": {
+        "expectText": "reserved",
+        "selector": "#message"
+      },
+      "ok": false,
+      "actual": "Short link created."
+    },
+    {
+      "step": {
+        "screenshot": "home-api"
+      },
+      "ok": true,
+      "file": "before-home-api.png"
+    }
+  ]
+}
