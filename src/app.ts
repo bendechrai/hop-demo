@@ -2,6 +2,7 @@ import express from "express";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { linksRouter } from "./routes/links.ts";
+import { previewRouter } from "./routes/preview.ts";
 import { redirectRouter } from "./routes/redirect.ts";
 import { statsPageRouter } from "./routes/stats-page.ts";
 import { statsRouter } from "./routes/stats.ts";
@@ -21,6 +22,9 @@ export function createApp(links: LinksService, stats: StatsService): express.Exp
   // The stats page is mounted before the redirect so "stats" is never read
   // as a short code.
   app.use("/stats", statsPageRouter(publicDir));
+  // The preview is mounted before the redirect so "abc+" is never read as a
+  // short code.
+  app.use("/", previewRouter(links));
   app.use("/", redirectRouter(links));
 
   app.use((_req, res) => {
