@@ -1,0 +1,10 @@
+[
+  { "viewport": { "width": 1280, "height": 800 } },
+  { "goto": "/" },
+  { "fill": "#url", "value": "https://example.com/some/really/long/destination/path/for/polish/evidence/that/keeps/going/with/many/segments/and/query?utm_source=weekly&utm_medium=email&utm_campaign=autumn" },
+  { "fill": "#code", "value": "ev-polish-g2-wide" },
+  { "fill": "#label", "value": "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW" },
+  { "click": "button[type='submit']" },
+  { "expectText": "ev-polish-g2-wide", "selector": "#rows" },
+  { "screenshot": "labels-wide" }
+]
