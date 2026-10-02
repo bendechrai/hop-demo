@@ -5,8 +5,8 @@ export function fakeLinks(seed: Link[] = []): LinksService & { rows: Link[] } {
   const rows = [...seed];
   return {
     rows,
-    insert(code, url, expiresAt) {
-      const link: Link = { code, url, clicks: 0, createdAt: "2026-01-01T00:00:00.000Z", expiresAt };
+    insert(code, url, expiresAt, label = null) {
+      const link: Link = { code, url, clicks: 0, createdAt: "2026-01-01T00:00:00.000Z", expiresAt, label };
       rows.push(link);
       return link;
     },

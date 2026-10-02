@@ -12,6 +12,7 @@ function link(overrides: Partial<Link> = {}): Link {
     clicks: 3,
     createdAt: "2026-01-01T00:00:00.000Z",
     expiresAt: "2026-02-01T00:00:00.000Z",
+    label: null,
     ...overrides,
   };
 }

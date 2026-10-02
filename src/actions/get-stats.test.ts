@@ -8,6 +8,7 @@ const seed = {
   clicks: 0,
   createdAt: "2026-01-01T00:00:00.000Z",
   expiresAt: null,
+  label: null,
 };
 
 test("getStats asks the service for five links and passes the totals through", () => {

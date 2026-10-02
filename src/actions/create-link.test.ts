@@ -43,6 +43,7 @@ test("createLink refuses a custom code that is already taken", () => {
       clicks: 0,
       createdAt: "2026-01-01T00:00:00.000Z",
       expiresAt: null,
+      label: null,
     },
   ]);
   const result = createLink({ url: "https://b.example", code: "taken" }, links);
@@ -124,5 +125,34 @@ test("createLink accepts the edges of the expiry range", () => {
   for (const expiresInDays of [1, 365]) {
     const result = createLink({ url: "https://example.com", expiresInDays }, fakeLinks(), now);
     assert.ok(result.ok, `expected ${expiresInDays} to be accepted`);
+  }
+});
+
+test("createLink stores a trimmed label", () => {
+  const links = fakeLinks();
+  const result = createLink({ url: "https://example.com", label: " Docs team " }, links, now);
+  assert.ok(result.ok);
+  assert.equal(result.value.label, "Docs team");
+  assert.equal(links.rows[0]?.label, "Docs team");
+});
+
+test("createLink stores a blank or missing label as null", () => {
+  for (const label of [undefined, null, "", "   "]) {
+    const result = createLink({ url: "https://example.com", label }, fakeLinks(), now);
+    assert.ok(result.ok);
+    assert.equal(result.value.label, null);
+  }
+});
+
+test("createLink refuses an invalid label and creates no link", () => {
+  for (const label of ["a".repeat(41), "bad!", 5]) {
+    const links = fakeLinks();
+    const result = createLink({ url: "https://example.com", label }, links, now);
+    assert.equal(result.ok, false);
+    if (!result.ok) {
+      assert.equal(result.reason, "invalid");
+      assert.match(result.error, /Label must be 1 to 40 characters/);
+    }
+    assert.equal(links.rows.length, 0);
   }
 });

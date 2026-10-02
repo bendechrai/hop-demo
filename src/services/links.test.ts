@@ -31,3 +31,20 @@ test("insert stores the expiry and get and list read it back", () => {
   assert.equal(byCode.get("forever"), null);
   db.close();
 });
+
+test("insert stores a label and get and list read it back, null without one", () => {
+  const db = openTestDatabase();
+  const links = createLinksService(db);
+
+  const tagged = links.insert("tagged", "https://example.com/a", null, "Docs team");
+  const plain = links.insert("plain", "https://example.com/b", null);
+  assert.equal(tagged.label, "Docs team");
+  assert.equal(plain.label, null);
+
+  assert.equal(links.get("tagged")?.label, "Docs team");
+  assert.equal(links.get("plain")?.label, null);
+  const byCode = new Map(links.list().map((link) => [link.code, link.label]));
+  assert.equal(byCode.get("tagged"), "Docs team");
+  assert.equal(byCode.get("plain"), null);
+  db.close();
+});

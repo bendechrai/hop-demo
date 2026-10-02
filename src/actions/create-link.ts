@@ -2,6 +2,7 @@ import { withStatus, type LinkStatus } from "./link-status.ts";
 import { reservedCodeError } from "./reserved-codes.ts";
 import type { ActionResult } from "./result.ts";
 import { isValidCode } from "./validate-code.ts";
+import { validateLabel } from "./validate-label.ts";
 import type { LinksService } from "../services/links.ts";
 import { normaliseUrl } from "../services/normalise-url.ts";
 import { generateCode } from "../services/short-code.ts";
@@ -16,6 +17,7 @@ export interface CreateLinkInput {
   url: unknown;
   code?: unknown;
   expiresInDays?: unknown;
+  label?: unknown;
 }
 
 function invalid(error: string): ActionResult<never> {
@@ -75,5 +77,10 @@ export function createLink(
   if (!code.ok) return code;
   const expiresAt = chooseExpiry(input.expiresInDays, now);
   if (!expiresAt.ok) return expiresAt;
-  return { ok: true, value: withStatus(links.insert(code.value, url, expiresAt.value), now) };
+  const label = validateLabel(input.label);
+  if (!label.ok) return label;
+  return {
+    ok: true,
+    value: withStatus(links.insert(code.value, url, expiresAt.value, label.value), now),
+  };
 }
