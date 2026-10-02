@@ -1,0 +1,257 @@
+{
+  "label": "before",
+  "ref": "origin/main",
+  "commit": "f72972bee5903881b785e8c10bfaf930b32c7caa",
+  "shortCommit": "f72972b",
+  "capturedAt": "2026-10-02T04:14:03.934Z",
+  "passed": 24,
+  "failed": 9,
+  "steps": [
+    {
+      "step": {
+        "goto": "/"
+      },
+      "ok": true,
+      "status": 200,
+      "url": "/"
+    },
+    {
+      "step": {
+        "fill": "#url",
+        "value": "https://example.com/docs"
+      },
+      "ok": true
+    },
+    {
+      "step": {
+        "fill": "#code",
+        "value": "docs-one"
+      },
+      "ok": true
+    },
+    {
+      "step": {
+        "fill": "#label",
+        "value": "docs"
+      },
+      "ok": false,
+      "error": "page.fill: Timeout 5000ms exceeded."
+    },
+    {
+      "step": {
+        "click": "button[type=submit]"
+      },
+      "ok": true
+    },
+    {
+      "step": {
+        "expectText": "Short link created.",
+        "selector": "#message"
+      },
+      "ok": true,
+      "actual": "Short link created."
+    },
+    {
+      "step": {
+        "expectText": "docs-one",
+        "selector": "#rows"
+      },
+      "ok": true,
+      "actual": "127.0.0.1:57728/docs-one\thttps://example.com/docs\t0\tDelete"
+    },
+    {
+      "step": {
+        "fill": "#url",
+        "value": "https://example.com/team"
+      },
+      "ok": true
+    },
+    {
+      "step": {
+        "fill": "#code",
+        "value": "docs-team"
+      },
+      "ok": true
+    },
+    {
+      "step": {
+        "fill": "#label",
+        "value": "Docs team"
+      },
+      "ok": false,
+      "error": "page.fill: Timeout 5000ms exceeded."
+    },
+    {
+      "step": {
+        "click": "button[type=submit]"
+      },
+      "ok": true
+    },
+    {
+      "step": {
+        "expectText": "Short link created.",
+        "selector": "#message"
+      },
+      "ok": true,
+      "actual": "Short link created."
+    },
+    {
+      "step": {
+        "expectText": "docs-team",
+        "selector": "#rows"
+      },
+      "ok": true,
+      "actual": "127.0.0.1:57728/docs-team\thttps://example.com/team\t0\tDelete\n127.0.0.1:57728/docs-one\thttps://example.com/docs\t0\tDelete"
+    },
+    {
+      "step": {
+        "fill": "#url",
+        "value": "https://example.com/sales"
+      },
+      "ok": true
+    },
+    {
+      "step": {
+        "fill": "#code",
+        "value": "sales-one"
+      },
+      "ok": true
+    },
+    {
+      "step": {
+        "fill": "#label",
+        "value": "sales"
+      },
+      "ok": false,
+      "error": "page.fill: Timeout 5000ms exceeded."
+    },
+    {
+      "step": {
+        "click": "button[type=submit]"
+      },
+      "ok": true
+    },
+    {
+      "step": {
+        "expectText": "Short link created.",
+        "selector": "#message"
+      },
+      "ok": true,
+      "actual": "Short link created."
+    },
+    {
+      "step": {
+        "expectText": "sales-one",
+        "selector": "#rows"
+      },
+      "ok": true,
+      "actual": "127.0.0.1:57728/sales-one\thttps://example.com/sales\t0\tDelete\n127.0.0.1:57728/docs-team\thttps://example.com/team\t0\tDelete\n127.0.0.1:57728/docs-one\thttps://example.com/docs\t0\tDelete"
+    },
+    {
+      "step": {
+        "fill": "#url",
+        "value": "https://example.com/plain"
+      },
+      "ok": true
+    },
+    {
+      "step": {
+        "fill": "#code",
+        "value": "plain-one"
+      },
+      "ok": true
+    },
+    {
+      "step": {
+        "fill": "#label",
+        "value": ""
+      },
+      "ok": false,
+      "error": "page.fill: Timeout 5000ms exceeded."
+    },
+    {
+      "step": {
+        "click": "button[type=submit]"
+      },
+      "ok": true
+    },
+    {
+      "step": {
+        "expectText": "Short link created.",
+        "selector": "#message"
+      },
+      "ok": true,
+      "actual": "Short link created."
+    },
+    {
+      "step": {
+        "expectText": "plain-one",
+        "selector": "#rows"
+      },
+      "ok": true,
+      "actual": "127.0.0.1:57728/plain-one\thttps://example.com/plain\t0\tDelete\n127.0.0.1:57728/sales-one\thttps://example.com/sales\t0\tDelete\n127.0.0.1:57728/docs-team\thttps://example.com/team\t0\tDelete\n127.0.0.1:57728/docs-one\thttps://example.com/docs\t0\tDelete"
+    },
+    {
+      "step": {
+        "expectText": "docs",
+        "selector": "#rows tr:has(a[href$='/docs-one']) .tag"
+      },
+      "ok": false,
+      "actual": null
+    },
+    {
+      "step": {
+        "expectText": "Docs team",
+        "selector": "#rows tr:has(a[href$='/docs-team']) .tag"
+      },
+      "ok": false,
+      "actual": null
+    },
+    {
+      "step": {
+        "expectText": "sales",
+        "selector": "#rows tr:has(a[href$='/sales-one']) .tag"
+      },
+      "ok": false,
+      "actual": null
+    },
+    {
+      "step": {
+        "expectText": "4 links",
+        "selector": "#count"
+      },
+      "ok": true,
+      "actual": "4 links"
+    },
+    {
+      "step": {
+        "screenshot": "table-with-tags"
+      },
+      "ok": true,
+      "file": "before-table-with-tags.png"
+    },
+    {
+      "step": {
+        "fill": "#filter",
+        "value": "doc"
+      },
+      "ok": false,
+      "error": "page.fill: Timeout 5000ms exceeded."
+    },
+    {
+      "step": {
+        "expectText": "2 links",
+        "selector": "#count"
+      },
+      "ok": false,
+      "actual": "4 links"
+    },
+    {
+      "step": {
+        "screenshot": "filtered"
+      },
+      "ok": true,
+      "file": "before-filtered.png"
+    }
+  ]
+}
