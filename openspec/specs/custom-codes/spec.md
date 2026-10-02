@@ -28,6 +28,10 @@ Creating a link with a custom code that equals a reserved word SHALL respond 400
 - **WHEN** a client posts a new link with the custom code `my-stats`
 - **THEN** the link is created with that code
 
+#### Scenario: Every mounted top-level route is reserved
+- **WHEN** the app mounts a router under a top-level prefix
+- **THEN** the first path segment of that prefix is a reserved word, and a test fails if it is not
+
 ### Requirement: A custom code cannot end in a plus sign
 Creating a link with a custom code that ends in `+` SHALL respond 400 with a message saying a code cannot end in `+` because that address shows the link's preview, and SHALL NOT create a link.
 
