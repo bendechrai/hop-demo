@@ -186,7 +186,10 @@ async function main() {
 
   const repo = git(["rev-parse", "--show-toplevel"]);
   const commit = git(["rev-parse", "--verify", `${args.ref}^{commit}`], repo);
-  const worktree = join(dirname(repo), `${basename(repo)}.worktrees`, `evidence-${args.name}`);
+  // Run from a ticket worktree, the top level is that worktree. The main
+  // checkout owns the shared .git, and the worktrees folder sits beside it.
+  const mainCheckout = dirname(resolve(repo, git(["rev-parse", "--git-common-dir"], repo)));
+  const worktree = join(dirname(mainCheckout), `${basename(mainCheckout)}.worktrees`, `evidence-${args.name}`);
   if (existsSync(worktree)) git(["worktree", "remove", "--force", worktree], repo);
   git(["worktree", "add", "--detach", worktree, commit], repo);
 
