@@ -1,0 +1,66 @@
+{
+  "label": "after",
+  "ref": "HEAD",
+  "commit": "22d366af1f2f9d995a1080a235802545e2b00438",
+  "shortCommit": "22d366a",
+  "capturedAt": "2026-10-02T03:54:59.706Z",
+  "passed": 5,
+  "failed": 0,
+  "steps": [
+    {
+      "step": {
+        "request": {
+          "method": "GET",
+          "path": "/health"
+        },
+        "expectStatus": 200
+      },
+      "ok": true,
+      "status": 200,
+      "body": {
+        "status": "ok",
+        "links": 0
+      }
+    },
+    {
+      "step": {
+        "goto": "/health"
+      },
+      "ok": true,
+      "status": 200,
+      "url": "/health"
+    },
+    {
+      "step": {
+        "expectText": "status"
+      },
+      "ok": true,
+      "actual": "{\"status\":\"ok\",\"links\":0}"
+    },
+    {
+      "step": {
+        "screenshot": "health"
+      },
+      "ok": true,
+      "file": "after-health.png"
+    },
+    {
+      "step": {
+        "request": {
+          "method": "POST",
+          "path": "/api/links",
+          "body": {
+            "url": "https://example.com/",
+            "code": "health"
+          }
+        },
+        "expectStatus": 400
+      },
+      "ok": true,
+      "status": 400,
+      "body": {
+        "error": "The code \"health\" is reserved for a page of hop. Choose another code."
+      }
+    }
+  ]
+}
