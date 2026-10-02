@@ -10,7 +10,8 @@
     "migrate": "node --env-file-if-exists=.env src/migrate.ts",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
-    "verify": "npm run typecheck && npm run lint && npm run test"
+    "verify": "npm run typecheck && npm run lint && npm run test",
+    "e2e": "playwright test"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +22,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.63.0",
     "@types/express": "^5.0.6",
     "@types/node": "^26.6.4",
     "eslint": "^10.11.0",

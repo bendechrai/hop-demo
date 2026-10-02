@@ -3,11 +3,11 @@ import globals from "globals";
 import tseslint from "typescript-eslint";
 
 export default tseslint.config(
-  { ignores: ["node_modules/", "data/"] },
+  { ignores: ["node_modules/", "data/", "test-results/", "playwright-report/"] },
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
   {
-    files: ["src/**/*.ts", "eslint.config.js"],
+    files: ["src/**/*.ts", "e2e/**/*.ts", "playwright.config.ts", "eslint.config.js"],
     languageOptions: { globals: globals.node },
     rules: { "@typescript-eslint/no-explicit-any": "error" },
   },
