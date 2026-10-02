@@ -2,4 +2,4 @@
 // without knowing the rules behind them.
 export type ActionResult<T> =
   | { ok: true; value: T }
-  | { ok: false; reason: "invalid" | "not-found" | "conflict"; error: string };
+  | { ok: false; reason: "invalid" | "not-found" | "conflict" | "expired"; error: string };

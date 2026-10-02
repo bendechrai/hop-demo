@@ -1,6 +1,7 @@
 const form = document.getElementById("shorten");
 const input = document.getElementById("url");
 const codeInput = document.getElementById("code");
+const expiresInput = document.getElementById("expires");
 const submit = form.querySelector("button[type=submit]");
 const message = document.getElementById("message");
 const result = document.getElementById("result");
@@ -35,6 +36,7 @@ function render(links) {
   }
   for (const link of links) {
     const tr = document.createElement("tr");
+    if (link.expired) tr.className = "expired";
     const a = document.createElement("a");
     a.href = link.shortUrl;
     a.target = "_blank";
@@ -44,7 +46,7 @@ function render(links) {
     const dest = cell("dest", link.url);
     dest.title = link.url;
     tr.appendChild(dest);
-    tr.appendChild(cell("num", String(link.clicks)));
+    tr.appendChild(cell("num", link.expired ? "Expired" : String(link.clicks)));
     tr.appendChild(cell("actions", deleteButton(link)));
     rows.appendChild(tr);
   }
@@ -89,7 +91,7 @@ form.addEventListener("submit", async (event) => {
     const res = await fetch("/api/links", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ url: input.value, code: codeInput.value }),
+      body: JSON.stringify({ url: input.value, code: codeInput.value, expiresInDays: expiresInput.value }),
     });
     const body = await res.json();
     if (!res.ok) {
@@ -101,6 +103,7 @@ form.addEventListener("submit", async (event) => {
     result.hidden = false;
     input.value = "";
     codeInput.value = "";
+    expiresInput.value = "";
     setMessage("Short link created.", true);
     await load();
   } catch (err) {

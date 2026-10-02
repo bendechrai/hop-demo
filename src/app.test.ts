@@ -3,15 +3,17 @@ import assert from "node:assert/strict";
 import type { Server } from "node:http";
 import type { DatabaseSync } from "node:sqlite";
 import { createApp } from "./app.ts";
-import { createLinksService, type Link } from "./services/links.ts";
+import { createLinksService, type Link, type LinksService } from "./services/links.ts";
 import { openTestDatabase } from "./services/test-database.ts";
 
 let server: Server;
 let base: string;
 let db: DatabaseSync;
+let links: LinksService;
 
 interface Presented extends Link {
   shortUrl: string;
+  expired: boolean;
 }
 
 async function postLink(body: Record<string, unknown>): Promise<Response> {
@@ -24,7 +26,8 @@ async function postLink(body: Record<string, unknown>): Promise<Response> {
 
 before(async () => {
   db = openTestDatabase();
-  server = createApp(createLinksService(db)).listen(0);
+  links = createLinksService(db);
+  server = createApp(links).listen(0);
   await new Promise((resolve) => server.once("listening", resolve));
   const address = server.address();
   if (!address || typeof address === "string") throw new Error("No port");
@@ -43,6 +46,8 @@ test("POST /api/links creates a short link", async () => {
   assert.match(body.code, /^[a-zA-Z0-9]{6}$/);
   assert.equal(body.url, "https://example.com/very/long/path");
   assert.equal(body.clicks, 0);
+  assert.equal(body.expiresAt, null);
+  assert.equal(body.expired, false);
   assert.equal(body.shortUrl, `${base}/${body.code}`);
 });
 
@@ -90,4 +95,47 @@ test("unknown codes return 404", async () => {
   assert.equal(res.status, 404);
   const api = await fetch(`${base}/api/links/zzzzzz`);
   assert.equal(api.status, 404);
+});
+
+test("POST /api/links stores an expiry in days and the list reports it", async () => {
+  const before = Date.now();
+  const res = await postLink({ url: "https://example.com/week", expiresInDays: 7 });
+  assert.equal(res.status, 201);
+  const body = (await res.json()) as Presented;
+  assert.ok(body.expiresAt);
+  const sevenDays = 7 * 24 * 60 * 60 * 1000;
+  const expiresIn = Date.parse(body.expiresAt) - before;
+  assert.ok(expiresIn >= sevenDays && expiresIn < sevenDays + 5000, `expiry was ${expiresIn}ms away`);
+  assert.equal(body.expired, false);
+
+  const list = (await (await fetch(`${base}/api/links`)).json()) as Presented[];
+  const found = list.find((link) => link.code === body.code);
+  assert.equal(found?.expiresAt, body.expiresAt);
+  assert.equal(found?.expired, false);
+});
+
+test("POST /api/links rejects an expiry outside 1 to 365 days", async () => {
+  for (const expiresInDays of [0, 366, "soon"]) {
+    const res = await postLink({ url: "https://example.com/bad", expiresInDays });
+    assert.equal(res.status, 400, `expected ${String(expiresInDays)} to be rejected`);
+    const body = (await res.json()) as { error?: string };
+    assert.match(body.error ?? "", /whole number of days from 1 to 365/);
+  }
+});
+
+test("GET /:code on an expired link returns 410 with the expired page and counts nothing", async () => {
+  // The service is the only honest way to make a link that is already expired.
+  links.insert("expired-e2e", "https://example.org/old", "2020-01-01T00:00:00.000Z");
+
+  const res = await fetch(`${base}/expired-e2e`, { redirect: "manual" });
+  assert.equal(res.status, 410);
+  assert.match(res.headers.get("content-type") ?? "", /text\/html/);
+  assert.match(await res.text(), /expired/i);
+
+  const detail = (await (await fetch(`${base}/api/links/expired-e2e`)).json()) as Presented;
+  assert.equal(detail.clicks, 0);
+  assert.equal(detail.expired, true);
+
+  const missing = await fetch(`${base}/no-such-code`, { redirect: "manual" });
+  assert.equal(missing.status, 404);
 });

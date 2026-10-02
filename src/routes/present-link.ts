@@ -6,6 +6,6 @@ function baseUrl(req: Request): string {
   return `${proto}://${req.get("host")}`;
 }
 
-export function presentLink(link: Link, req: Request) {
+export function presentLink<T extends Link>(link: T, req: Request): T & { shortUrl: string } {
   return { ...link, shortUrl: `${baseUrl(req)}/${link.code}` };
 }

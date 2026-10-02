@@ -1,4 +1,5 @@
 import { defineConfig, devices } from "@playwright/test";
+import { E2E_DB_PATH } from "./e2e/database.ts";
 
 // The port is fixed so Playwright knows which URL to wait for. Set E2E_PORT
 // if 4390 is busy on your machine.
@@ -12,11 +13,13 @@ export default defineConfig({
   reporter: "list",
   use: { baseURL },
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
+  // The database is a throwaway file rather than :memory: so a test can reach
+  // the same rows the server sees, for example to plant an expired link.
   webServer: {
-    command: "node src/server.ts",
+    command: `rm -f ${E2E_DB_PATH} && node src/server.ts`,
     url: baseURL,
     reuseExistingServer: false,
-    env: { HOP_DB: ":memory:", PORT: String(port) },
+    env: { HOP_DB: E2E_DB_PATH, PORT: String(port) },
     timeout: 30_000,
   },
 });

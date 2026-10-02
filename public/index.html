@@ -20,6 +20,9 @@
       <input id="code" name="code" type="text" class="code" placeholder="custom code (optional)"
         minlength="3" maxlength="32" pattern="[A-Za-z0-9-]{3,32}"
         title="3 to 32 characters: letters, digits and hyphens only">
+      <label class="sr-only" for="expires">Expires in days (optional)</label>
+      <input id="expires" name="expiresInDays" type="number" class="days" placeholder="expires in days (optional)"
+        min="1" max="365" step="1" title="A whole number of days from 1 to 365. Leave blank for never.">
       <button type="submit">Shorten</button>
     </form>
     <p id="message" class="message" role="status" aria-live="polite"></p>

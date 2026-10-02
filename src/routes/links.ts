@@ -17,7 +17,10 @@ export function linksRouter(links: LinksService): Router {
     const body: unknown = req.body;
     const field = (name: string): unknown =>
       typeof body === "object" && body !== null ? Reflect.get(body, name) : undefined;
-    const result = createLink({ url: field("url"), code: field("code") }, links);
+    const result = createLink(
+      { url: field("url"), code: field("code"), expiresInDays: field("expiresInDays") },
+      links,
+    );
     if (!result.ok) {
       res.status(result.reason === "conflict" ? 409 : 400).json({ error: result.error });
       return;

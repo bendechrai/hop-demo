@@ -3,7 +3,12 @@ import assert from "node:assert/strict";
 import { deleteLink } from "./delete-link.ts";
 import { fakeLinks } from "./fake-links.ts";
 
-const seed = { url: "https://example.com/", clicks: 0, createdAt: "2026-01-01T00:00:00.000Z" };
+const seed = {
+  url: "https://example.com/",
+  clicks: 0,
+  createdAt: "2026-01-01T00:00:00.000Z",
+  expiresAt: null,
+};
 
 test("deleteLink removes an existing link and leaves the others", () => {
   const links = fakeLinks([

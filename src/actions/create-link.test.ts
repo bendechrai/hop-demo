@@ -37,7 +37,13 @@ test("createLink rejects malformed custom codes without creating a link", () => 
 
 test("createLink refuses a custom code that is already taken", () => {
   const links = fakeLinks([
-    { code: "taken", url: "https://a.example", clicks: 0, createdAt: "2026-01-01T00:00:00.000Z" },
+    {
+      code: "taken",
+      url: "https://a.example",
+      clicks: 0,
+      createdAt: "2026-01-01T00:00:00.000Z",
+      expiresAt: null,
+    },
   ]);
   const result = createLink({ url: "https://b.example", code: "taken" }, links);
   assert.equal(result.ok, false);
@@ -52,4 +58,48 @@ test("createLink checks the URL before the code", () => {
   const result = createLink({ url: "nope", code: "!!" }, fakeLinks());
   assert.equal(result.ok, false);
   if (!result.ok) assert.match(result.error, /URL/);
+});
+
+const now = new Date("2026-06-01T12:00:00.000Z");
+
+test("createLink stores an expiry the given number of days from now", () => {
+  const links = fakeLinks();
+  const result = createLink({ url: "https://example.com", expiresInDays: 30 }, links, now);
+  assert.ok(result.ok);
+  assert.equal(result.value.expiresAt, "2026-07-01T12:00:00.000Z");
+  assert.equal(links.rows[0]?.expiresAt, "2026-07-01T12:00:00.000Z");
+});
+
+test("createLink accepts the days as text, as the form sends them", () => {
+  const result = createLink({ url: "https://example.com", expiresInDays: " 7 " }, fakeLinks(), now);
+  assert.ok(result.ok);
+  assert.equal(result.value.expiresAt, "2026-06-08T12:00:00.000Z");
+});
+
+test("createLink gives no expiry when the days are blank or missing", () => {
+  for (const expiresInDays of [undefined, null, "", "   "]) {
+    const result = createLink({ url: "https://example.com", expiresInDays }, fakeLinks(), now);
+    assert.ok(result.ok);
+    assert.equal(result.value.expiresAt, null);
+  }
+});
+
+test("createLink rejects an expiry outside 1 to 365 whole days without creating a link", () => {
+  for (const expiresInDays of [0, 366, 1.5, -3, "abc", "1e2x", true]) {
+    const links = fakeLinks();
+    const result = createLink({ url: "https://example.com", expiresInDays }, links, now);
+    assert.equal(result.ok, false, `expected ${String(expiresInDays)} to be rejected`);
+    if (!result.ok) {
+      assert.equal(result.reason, "invalid");
+      assert.match(result.error, /whole number of days from 1 to 365/);
+    }
+    assert.equal(links.rows.length, 0);
+  }
+});
+
+test("createLink accepts the edges of the expiry range", () => {
+  for (const expiresInDays of [1, 365]) {
+    const result = createLink({ url: "https://example.com", expiresInDays }, fakeLinks(), now);
+    assert.ok(result.ok, `expected ${expiresInDays} to be accepted`);
+  }
 });
