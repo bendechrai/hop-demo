@@ -11,12 +11,14 @@ const links = [
 
 const wide = `lab-${stamp}-wide`;
 const wideShort = `lab-${stamp}-wide-short`;
+const shortLabel = `lab-${stamp}-short-label`;
 const fortyW = "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW";
 
 test.afterAll(async ({ request }) => {
   for (const link of links) await request.delete(`/api/links/${link.code}`);
   await request.delete(`/api/links/${wide}`);
   await request.delete(`/api/links/${wideShort}`);
+  await request.delete(`/api/links/${shortLabel}`);
 });
 
 test("labels show as tags and the filter narrows the table", async ({ page }) => {
@@ -96,4 +98,22 @@ test("the tag stays inside the destination cell and the url stays visible", asyn
   await expect(shortRow).toHaveCount(1);
   const shortUrlWidth = (await shortRow.locator(".dest-url").boundingBox())?.width;
   expect(shortUrlWidth).toBeGreaterThan(0);
+});
+
+test("the url shows well beyond 240px with a short label", async ({ page }) => {
+  const longUrl = "https://example.com/some/very/long/path/that/goes/on/and/on/for/a/while/campaign?utm_source=newsletter&utm_medium=email";
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.goto("/");
+  await page.getByLabel("Long URL").fill(longUrl);
+  await page.getByLabel("Custom code (optional)").fill(shortLabel);
+  await page.getByLabel("Label (optional)").fill("campaign");
+  await page.getByRole("button", { name: "Shorten" }).click();
+
+  const row = page.locator("#rows tr", { hasText: shortLabel });
+  await expect(row).toHaveCount(1);
+  await expect(row.locator(".tag")).toHaveText("campaign");
+
+  // The old CSS capped the url at 240px whatever the label. The box must be wider.
+  const urlWidth = (await row.locator(".dest-url").boundingBox())?.width;
+  expect(urlWidth).toBeGreaterThan(240);
 });

@@ -212,7 +212,7 @@ button.ghost {
   margin-left: 8px;
   padding: 1px 8px;
   min-width: 0;
-  max-width: 55%;
+  max-width: 60%;
   border: 1px solid var(--border);
   border-radius: 999px;
   background: var(--panel-2);
