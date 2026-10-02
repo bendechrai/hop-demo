@@ -59,6 +59,12 @@ See proposal.md for why. The current state that shapes the approach:
 
 No schema change and no new configuration. Deploy the code; rollback is a revert.
 
+## Decisions recorded during implementation
+
+Promoted from the DECISION: comments on the agentboard tickets of this change.
+
+1. **The top list shows five links, ordered by clicks then by creation date, so the order is stable when counts tie.** Recorded on ticket 01M3X8BWC0573VVVQS61BBRYVP (Stats action and routes) by impl-1. Equal counts come back oldest first, which is the `ORDER BY clicks DESC, created_at ASC` in `src/services/stats.ts`, covered by the tie test in `src/services/stats.test.ts`. This settles the open question below.
+
 ## Open Questions
 
-- Which order do links with the same click count take? The spec only asks that the order be the same from one request to the next. The implementer picks a stable secondary order and records it as a decision on the ticket. This does not change the specs, the approach or the tasks.
+- Which order do links with the same click count take? Settled: see "Decisions recorded during implementation" above.
