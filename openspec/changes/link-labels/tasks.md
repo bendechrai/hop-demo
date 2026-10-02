@@ -12,10 +12,10 @@
 
 Depends on group 1 being merged.
 
-- [ ] 2.1 Add an optional "Label (optional)" field to the form in `public/index.html` (maxlength 40, a pattern for letters, digits, spaces and hyphens), and send its value as `label` from `public/app.js`, clearing it after a link is created; verify by creating a labelled link from the page and seeing the label in `/api/links`
-- [ ] 2.2 Show each link's label as a small tag in its row (built with `textContent`, no tag for a link without a label), styled in `public/style.css`; verify by opening the home page with one labelled and one unlabelled link
-- [ ] 2.3 Add a "Filter by label" box above the table that shows only links whose label contains the typed text, ignoring case, hides unlabelled links while it holds text, says when no link matches, shows every link when cleared, and keeps applying after the five-second refresh; verify by typing in it on the home page
-- [ ] 2.4 Add `e2e/labels.spec.ts` (a new file, not `e2e/hop.spec.ts`) that creates links labelled `docs`, `Docs team` and `sales` and one with no label from the page, checks each row's tag, types `doc` in the filter and sees only the two docs rows, types a label nobody has and sees the no-match message, clears it and sees all four, and deletes its links at the end; verify `E2E_PORT=4392 npm run e2e` passes
+- [x] 2.1 Add an optional "Label (optional)" field to the form in `public/index.html` (maxlength 40, a pattern for letters, digits, spaces and hyphens), and send its value as `label` from `public/app.js`, clearing it after a link is created; verify by creating a labelled link from the page and seeing the label in `/api/links`
+- [x] 2.2 Show each link's label as a small tag in its row (built with `textContent`, no tag for a link without a label), styled in `public/style.css`; verify by opening the home page with one labelled and one unlabelled link
+- [x] 2.3 Add a "Filter by label" box above the table that shows only links whose label contains the typed text, ignoring case, hides unlabelled links while it holds text, says when no link matches, shows every link when cleared, and keeps applying after the five-second refresh; verify by typing in it on the home page
+- [x] 2.4 Add `e2e/labels.spec.ts` (a new file, not `e2e/hop.spec.ts`) that creates links labelled `docs`, `Docs team` and `sales` and one with no label from the page, checks each row's tag, types `doc` in the filter and sees only the two docs rows, types a label nobody has and sees the no-match message, clears it and sees all four, and deletes its links at the end; verify `E2E_PORT=4392 npm run e2e` passes
 
 ## 3. Health endpoint
 

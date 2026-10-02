@@ -1,0 +1,295 @@
+{
+  "label": "after",
+  "ref": "HEAD",
+  "commit": "0c79e4c705ee391518dc6efba6a25016c607677e",
+  "shortCommit": "0c79e4c",
+  "capturedAt": "2026-10-02T04:22:39.703Z",
+  "passed": 39,
+  "failed": 0,
+  "steps": [
+    {
+      "step": {
+        "goto": "/"
+      },
+      "ok": true,
+      "status": 200,
+      "url": "/"
+    },
+    {
+      "step": {
+        "fill": "#url",
+        "value": "https://example.com/docs"
+      },
+      "ok": true
+    },
+    {
+      "step": {
+        "fill": "#code",
+        "value": "docs-one"
+      },
+      "ok": true
+    },
+    {
+      "step": {
+        "fill": "#label",
+        "value": "docs"
+      },
+      "ok": true
+    },
+    {
+      "step": {
+        "click": "button[type=submit]"
+      },
+      "ok": true
+    },
+    {
+      "step": {
+        "expectText": "Short link created.",
+        "selector": "#message"
+      },
+      "ok": true,
+      "actual": "Short link created."
+    },
+    {
+      "step": {
+        "expectText": "docs-one",
+        "selector": "#rows"
+      },
+      "ok": true,
+      "actual": "127.0.0.1:58507/docs-one\t\nhttps://example.com/docs\ndocs\n\t0\tDelete"
+    },
+    {
+      "step": {
+        "fill": "#url",
+        "value": "https://example.com/team"
+      },
+      "ok": true
+    },
+    {
+      "step": {
+        "fill": "#code",
+        "value": "docs-team"
+      },
+      "ok": true
+    },
+    {
+      "step": {
+        "fill": "#label",
+        "value": "Docs team"
+      },
+      "ok": true
+    },
+    {
+      "step": {
+        "click": "button[type=submit]"
+      },
+      "ok": true
+    },
+    {
+      "step": {
+        "expectText": "Short link created.",
+        "selector": "#message"
+      },
+      "ok": true,
+      "actual": "Short link created."
+    },
+    {
+      "step": {
+        "expectText": "docs-team",
+        "selector": "#rows"
+      },
+      "ok": true,
+      "actual": "127.0.0.1:58507/docs-team\t\nhttps://example.com/team\nDocs team\n\t0\tDelete\n127.0.0.1:58507/docs-one\t\nhttps://example.com/docs\ndocs\n\t0\tDelete"
+    },
+    {
+      "step": {
+        "fill": "#url",
+        "value": "https://example.com/sales"
+      },
+      "ok": true
+    },
+    {
+      "step": {
+        "fill": "#code",
+        "value": "sales-one"
+      },
+      "ok": true
+    },
+    {
+      "step": {
+        "fill": "#label",
+        "value": "sales"
+      },
+      "ok": true
+    },
+    {
+      "step": {
+        "click": "button[type=submit]"
+      },
+      "ok": true
+    },
+    {
+      "step": {
+        "expectText": "Short link created.",
+        "selector": "#message"
+      },
+      "ok": true,
+      "actual": "Short link created."
+    },
+    {
+      "step": {
+        "expectText": "sales-one",
+        "selector": "#rows"
+      },
+      "ok": true,
+      "actual": "127.0.0.1:58507/sales-one\t\nhttps://example.com/sales\nsales\n\t0\tDelete\n127.0.0.1:58507/docs-team\t\nhttps://example.com/team\nDocs team\n\t0\tDelete\n127.0.0.1:58507/docs-one\t\nhttps://example.com/docs\ndocs\n\t0\tDelete"
+    },
+    {
+      "step": {
+        "fill": "#url",
+        "value": "https://example.com/plain"
+      },
+      "ok": true
+    },
+    {
+      "step": {
+        "fill": "#code",
+        "value": "plain-one"
+      },
+      "ok": true
+    },
+    {
+      "step": {
+        "fill": "#label",
+        "value": ""
+      },
+      "ok": true
+    },
+    {
+      "step": {
+        "click": "button[type=submit]"
+      },
+      "ok": true
+    },
+    {
+      "step": {
+        "expectText": "Short link created.",
+        "selector": "#message"
+      },
+      "ok": true,
+      "actual": "Short link created."
+    },
+    {
+      "step": {
+        "expectText": "plain-one",
+        "selector": "#rows"
+      },
+      "ok": true,
+      "actual": "127.0.0.1:58507/plain-one\t\nhttps://example.com/plain\n\t0\tDelete\n127.0.0.1:58507/sales-one\t\nhttps://example.com/sales\nsales\n\t0\tDelete\n127.0.0.1:58507/docs-team\t\nhttps://example.com/team\nDocs team\n\t0\tDelete\n127.0.0.1:58507/docs-one\t\nhttps://example.com/docs\ndocs\n\t0\tDelete"
+    },
+    {
+      "step": {
+        "expectText": "docs",
+        "selector": "#rows tr:has(a[href$='/docs-one']) .tag"
+      },
+      "ok": true,
+      "actual": "docs"
+    },
+    {
+      "step": {
+        "expectText": "Docs team",
+        "selector": "#rows tr:has(a[href$='/docs-team']) .tag"
+      },
+      "ok": true,
+      "actual": "Docs team"
+    },
+    {
+      "step": {
+        "expectText": "sales",
+        "selector": "#rows tr:has(a[href$='/sales-one']) .tag"
+      },
+      "ok": true,
+      "actual": "sales"
+    },
+    {
+      "step": {
+        "fill": "#url",
+        "value": "https://example.com/some/very/long/path/that/goes/on/and/on/for/a/while/campaign?utm_source=newsletter&utm_medium=email"
+      },
+      "ok": true
+    },
+    {
+      "step": {
+        "fill": "#code",
+        "value": "wide-one"
+      },
+      "ok": true
+    },
+    {
+      "step": {
+        "fill": "#label",
+        "value": "campaign"
+      },
+      "ok": true
+    },
+    {
+      "step": {
+        "click": "button[type=submit]"
+      },
+      "ok": true
+    },
+    {
+      "step": {
+        "expectText": "Short link created.",
+        "selector": "#message"
+      },
+      "ok": true,
+      "actual": "Short link created."
+    },
+    {
+      "step": {
+        "expectText": "campaign",
+        "selector": "#rows tr:has(a[href$='/wide-one']) .tag"
+      },
+      "ok": true,
+      "actual": "campaign"
+    },
+    {
+      "step": {
+        "expectText": "5 links",
+        "selector": "#count"
+      },
+      "ok": true,
+      "actual": "5 links"
+    },
+    {
+      "step": {
+        "screenshot": "table-with-tags"
+      },
+      "ok": true,
+      "file": "after-table-with-tags.png"
+    },
+    {
+      "step": {
+        "fill": "#filter",
+        "value": "doc"
+      },
+      "ok": true
+    },
+    {
+      "step": {
+        "expectText": "2 links",
+        "selector": "#count"
+      },
+      "ok": true,
+      "actual": "2 links"
+    },
+    {
+      "step": {
+        "screenshot": "filtered"
+      },
+      "ok": true,
+      "file": "after-filtered.png"
+    }
+  ]
+}

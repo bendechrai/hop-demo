@@ -64,7 +64,12 @@ h1 {
 
 .shorten {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
+}
+
+.shorten input#url {
+  flex: 1 1 100%;
 }
 
 .shorten input {
@@ -85,6 +90,10 @@ h1 {
 
 .shorten input.days {
   flex: 0 1 200px;
+}
+
+.shorten input.tag-input {
+  flex: 0 1 180px;
 }
 
 .shorten input:focus {
@@ -182,6 +191,34 @@ button.ghost {
 
 .links { margin-top: 44px; }
 
+.filter {
+  width: 100%;
+  margin-bottom: 12px;
+  padding: 10px 14px;
+  font-size: 15px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  color: var(--text);
+}
+
+.filter:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.label-tag {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 1px 8px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--panel-2);
+  text-transform: none;
+  letter-spacing: 0.02em;
+  vertical-align: middle;
+}
+
 .links-head {
   display: flex;
   align-items: baseline;
@@ -243,6 +280,18 @@ td.dest {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+.dest-line { display: flex; align-items: center; }
+
+.dest-url {
+  min-width: 0;
+  max-width: 240px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.label-tag { flex-shrink: 0; }
 
 .empty td { color: var(--muted); text-align: center; padding: 28px; }
 

@@ -1,0 +1,150 @@
+[
+  {
+    "goto": "/"
+  },
+  {
+    "fill": "#url",
+    "value": "https://example.com/docs"
+  },
+  {
+    "fill": "#code",
+    "value": "docs-one"
+  },
+  {
+    "fill": "#label",
+    "value": "docs"
+  },
+  {
+    "click": "button[type=submit]"
+  },
+  {
+    "expectText": "Short link created.",
+    "selector": "#message"
+  },
+  {
+    "expectText": "docs-one",
+    "selector": "#rows"
+  },
+  {
+    "fill": "#url",
+    "value": "https://example.com/team"
+  },
+  {
+    "fill": "#code",
+    "value": "docs-team"
+  },
+  {
+    "fill": "#label",
+    "value": "Docs team"
+  },
+  {
+    "click": "button[type=submit]"
+  },
+  {
+    "expectText": "Short link created.",
+    "selector": "#message"
+  },
+  {
+    "expectText": "docs-team",
+    "selector": "#rows"
+  },
+  {
+    "fill": "#url",
+    "value": "https://example.com/sales"
+  },
+  {
+    "fill": "#code",
+    "value": "sales-one"
+  },
+  {
+    "fill": "#label",
+    "value": "sales"
+  },
+  {
+    "click": "button[type=submit]"
+  },
+  {
+    "expectText": "Short link created.",
+    "selector": "#message"
+  },
+  {
+    "expectText": "sales-one",
+    "selector": "#rows"
+  },
+  {
+    "fill": "#url",
+    "value": "https://example.com/plain"
+  },
+  {
+    "fill": "#code",
+    "value": "plain-one"
+  },
+  {
+    "fill": "#label",
+    "value": ""
+  },
+  {
+    "click": "button[type=submit]"
+  },
+  {
+    "expectText": "Short link created.",
+    "selector": "#message"
+  },
+  {
+    "expectText": "plain-one",
+    "selector": "#rows"
+  },
+  {
+    "expectText": "docs",
+    "selector": "#rows tr:has(a[href$='/docs-one']) .tag"
+  },
+  {
+    "expectText": "Docs team",
+    "selector": "#rows tr:has(a[href$='/docs-team']) .tag"
+  },
+  {
+    "expectText": "sales",
+    "selector": "#rows tr:has(a[href$='/sales-one']) .tag"
+  },
+  {
+    "fill": "#url",
+    "value": "https://example.com/some/very/long/path/that/goes/on/and/on/for/a/while/campaign?utm_source=newsletter&utm_medium=email"
+  },
+  {
+    "fill": "#code",
+    "value": "wide-one"
+  },
+  {
+    "fill": "#label",
+    "value": "campaign"
+  },
+  {
+    "click": "button[type=submit]"
+  },
+  {
+    "expectText": "Short link created.",
+    "selector": "#message"
+  },
+  {
+    "expectText": "campaign",
+    "selector": "#rows tr:has(a[href$='/wide-one']) .tag"
+  },
+  {
+    "expectText": "5 links",
+    "selector": "#count"
+  },
+  {
+    "screenshot": "table-with-tags"
+  },
+  {
+    "fill": "#filter",
+    "value": "doc"
+  },
+  {
+    "expectText": "2 links",
+    "selector": "#count"
+  },
+  {
+    "screenshot": "filtered"
+  }
+]
