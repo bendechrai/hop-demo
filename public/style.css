@@ -211,6 +211,7 @@ button.ghost {
   display: inline-block;
   margin-left: 8px;
   padding: 1px 8px;
+  min-width: 0;
   max-width: 55%;
   border: 1px solid var(--border);
   border-radius: 999px;
@@ -218,7 +219,7 @@ button.ghost {
   text-transform: none;
   letter-spacing: 0.02em;
   vertical-align: middle;
-  flex-shrink: 1;
+  flex: 0 1 auto;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
