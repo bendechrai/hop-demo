@@ -156,7 +156,13 @@ from whatever it was.
     - A conflict: dispatch a `sonnet` implementer to rebase and resolve it
       as design.md says.
     - Then verify that PR again (step 6) before it can merge. A rebase that
-      changed code is reviewed again (step 7).
+      changed code is reviewed again (step 7). Check with
+      `git range-diff <old base>..<old head> origin/main..origin/<branch>`:
+      `=` on every line means the code is unchanged.
+    - A rebase rewrites every commit sha, so the evidence records and the PR
+      body now name an after commit that is no longer in the PR. Send it back
+      to the implementer to capture the evidence again on the new commits and
+      update the PR body, even when the code is unchanged.
 
 11. **Go back to the board.** Return to step 1 and dispatch whatever the
     merge unblocked, until `agentboard list --change <change>` is empty.
